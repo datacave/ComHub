@@ -1,0 +1,24 @@
+<h1>Search notifications</h1>
+
+<% form_for :notification, :url => { :action => :results } do |f| %>
+<table>
+  <tr><th>Sender<td><%= f.text_field :sender %></tr>
+  <tr><th>Recipients<td><%= f.text_field :recipients %></tr>
+  <tr><th>Subject<td><%= f.text_field :subject %></tr>
+  <tr><th>Body<td><%= f.text_field :body %></tr>
+  <tr><th>Keywords<td><%= f.text_field :keywords %></tr>
+  <tr><th>State<td><%= f.select :state, options_for_select([ ["", ""],
+    ["Created", "created"], ["Sent", "sent"],
+    ["Delivered", "delivered"], ["Confirmed", "confirmed"],
+    ["Acknowledged", "acknowledged"] ]) %>
+</table>
+  <p>
+    <%= f.submit 'Go!' %>
+  </p>
+<% end %>
+
+<br/>
+
+<p class="navigation">
+<%= link_to 'New notification', new_notification_path %>
+</p>

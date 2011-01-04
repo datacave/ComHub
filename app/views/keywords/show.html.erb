@@ -1,0 +1,11 @@
+<h1>Showing keyword</h1>
+
+<table>
+  <tr><th>Designation<td><%= @keyword.designation %></tr>
+  <tr><th>Parent<td><%= @keyword.parent.designation unless @keyword.parent.nil? %></tr>
+</table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_keyword_path(@keyword) %> |
+<%= link_to 'Back', keywords_path %>
+</p>

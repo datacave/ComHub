@@ -1,0 +1,14 @@
+<div class="pattern">
+
+<% new_or_existing = pattern.new_record? ? 'new' : 'existing' %>
+<% prefix = "contact[#{new_or_existing}_pattern_attributes][]" %>
+<% fields_for prefix, pattern do |pattern_form| %>
+  <p style="border: 1px dotted gray">
+    Filter: <%= pattern_form.text_field :definition %>
+    Active: <%= pattern_form.select :active, [['No' , false], ['Yes' , true]] %><br/>
+    Duration: <%= pattern_form.text_field :duration %>
+    <%= link_to_function "remove" , "$(this).up('.pattern').remove()" %>
+  </p>
+<% end %>
+
+</div>

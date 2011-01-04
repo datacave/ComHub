@@ -1,0 +1,9 @@
+.project
+nbproject/
+log/
+tmp/
+db/*.sql
+config/initializers/session_store.rb
+config/database.yml
+config/local.yml
+test/fixtures/channels.yml

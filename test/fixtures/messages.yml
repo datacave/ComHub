@@ -1,0 +1,36 @@
+# == Schema Information
+# Schema version: 20101206175716
+#
+# Table name: messages
+#
+#  id                  :integer(4)      not null, primary key
+#  created_at          :datetime
+#  updated_at          :datetime
+#  uid                 :string(255)
+#  sender              :string(255)
+#  recipients_direct   :string(255)
+#  recipients_indirect :string(255)
+#  stamp               :datetime
+#  subject             :string(255)
+#  body                :text
+#  importance          :integer(4)
+#  keywords            :text
+#  state               :string(255)     default("received")
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+
+one:
+  sender: address@host.domain.com
+  recipients_direct: first
+  stamp: <% Time.now %>
+  subject: This
+  body: A quick brown fox jumps over the lazy dog.
+  keywords: Everything
+  

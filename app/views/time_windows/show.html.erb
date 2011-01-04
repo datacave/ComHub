@@ -1,0 +1,12 @@
+<h1>Showing time window</h1>
+
+<table>
+  <tr><th>Description<td><%= @time_window.description %></tr>
+  <tr><th>Definition<td><%= @time_window.definition %></tr>
+  <tr><th>Active<td><%= @time_window.active %></tr>
+</table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_time_window_path(@time_window) %> |
+<%= link_to 'Back', time_windows_path %>
+</p>

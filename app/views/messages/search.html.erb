@@ -1,0 +1,24 @@
+<h1>Search messages</h1>
+
+<% form_for :message, :url => { :action => :results } do |f| %>
+<table>
+  <tr><th>Sender<td><%= f.text_field :sender %></tr>
+  <tr><th>Recipients<td><%= f.text_field :recipients %></tr>
+  <tr><th>Subject<td><%= f.text_field :subject %></tr>
+  <tr><th>Body<td><%= f.text_field :body %></tr>
+  <tr><th>Keywords<td><%= f.text_field :keywords %></tr>
+  <tr><th>State<td><%= f.select :state, options_for_select([ ["", ""],
+    ["Received", "received"], ["Throttled", "throttled"],
+    ["Suppressed", "suppressed"], ["Addressed", "addressed"],
+    ["Apportioned", "apportioned"] ]) %>
+</table>
+  <p>
+    <%= f.submit 'Go!' %>
+  </p>
+<% end %>
+
+<br/>
+
+<p class="navigation">
+<%= link_to 'New message', new_message_path %>
+</p>

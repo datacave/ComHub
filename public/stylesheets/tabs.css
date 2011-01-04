@@ -1,0 +1,218 @@
+#main {
+    padding: 10px 30px 10px 30px
+}
+
+#main #message {
+    background-color: #6d7a81;
+    color: #fff;
+    padding: 15px;
+    position: relative;
+    z-index: 999
+}
+
+#main a.button {
+    display: block;
+    width: 146px;
+    height: 28px;
+    border: 0;
+    text-align: center;
+    background-image: url("button.gif");
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    letter-spacing: -1px;
+    color: #475e6a;
+    text-shadow: 2px 2px 0px #9daab0;
+    font-weight: normal;
+    line-height: 26px;
+    margin-top: 10px
+}
+
+#main a.button: hover {
+    background-position: 0 -28px;
+    background-repeat: no-repeat
+}
+
+#main a.button: hover {
+    color: #475e6a
+}
+
+#main h1 {
+    color: #6d7a81;
+    font-weight: bold;
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 0px #d9d9d9;
+    margin: 0 0 0 -2px;
+    padding: 0 0 0 0
+}
+
+#main h1 sup {
+    color: #aaa;
+    text-shadow: none
+}
+
+#main p.introduction {
+    margin: 0 0 25px 0;
+    padding: 0 0 0 0;
+    line-height: 5px;
+    font-weight: bold;
+    color: #a8a8a8;
+    letter-spacing: ;
+}
+
+#main h2 {
+    color: #5f6a71;
+    font-weight: normal;
+    padding: 10px 0 5px 0;
+    margin: 0 0 0 0;
+    border-bottom: 1px solid #eee
+}
+
+#main h2 a {
+    font-weight: normal;
+    margin: 0;
+    padding: 0
+}
+
+#main h3 {
+    border-bottom: 1px solid #eee;
+    padding: 7px 0 7px 0;
+    margin: 0;
+    color: #5f6a71
+}
+
+#main h3 span {
+    padding-left: 7px;
+    font-weight: normal
+}
+
+#main h2.borderless, #main h3.borderless {
+    border-bottom: none
+}
+
+#main .item_info {
+    padding-top: 7px;
+    border-top: 1px solid #eee;
+    text-align: right;
+    letter-spacing: 0;
+    color: #999;
+}
+
+#main {
+    color: #333;
+}
+
+#main p, #main li, #main div.comment {
+    color: #333;
+    line-height: 18px
+}
+
+#main p {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+#main ul.api li {
+    color: #333;
+}
+
+#main h3 span.right {
+    text-align: right;
+}
+
+#main h3 span.right a {
+    margin-left: 10px;
+}
+
+#main a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #125;
+}
+
+#main a:hover {
+    color: white;
+    background: #125;
+}
+
+#main p.date {
+    border-top: 1px solid #ccc;
+    color: #999;
+    text-align: right;
+}
+
+#main .right {
+    float: right;
+    margin-left: 10px;
+}
+
+#main .left {
+    float: left;
+    margin-right: 10px;
+}
+
+#main ul.api {
+    list-style: none;
+    padding-left: 0;
+}
+
+#main .api span.visibility {
+    color: #881350;
+}
+
+#main .api span.name {
+    color: #003369;
+}
+
+#main .api span.variable {
+    color: #825900;
+}
+
+#main .api span.return {
+    color: #666666;
+}
+
+#main pre.highlighted {
+    margin: 0 -30px 5px -30px;
+    padding: 20px 30px 20px 30px;
+    background-color: #000;
+    color: #fff;
+    overflow: auto;
+    width: 740px;
+}
+
+* html #main pre.highlighted {
+    width: 798px;
+}
+
+#main ul.subsection_tabs {
+    list-style: none;
+    margin: 0 0 5px 0;
+    padding: 0;
+    clear: both;
+    border-bottom: 1px solid #ccc;
+    height: 20px;
+    clear: both;
+}
+
+#main ul.subsection_tabs li.tab {
+    float: left;
+    margin-right: 7px;
+    text-align: center;
+}
+
+#main ul.subsection_tabs li.tab a {
+    display: block;
+    height: 20px;
+    padding: 0 6px 0 6px;
+    background-color: #fff;
+    color: #666;
+    width: 80px;
+}
+
+#main ul.subsection_tabs li.tab a.hover {
+    color: #666;
+}
+
+#main ul.subsection_tabs li.tab a.active {
+    background-color: #eee;
+}

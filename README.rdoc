@@ -1,0 +1,98 @@
+= Welcome to ComHub
+
+ComHub is an application designed to absorb lots of disparate incoming
+messages, and route them to the appropriate people. The inspiration for the
+program came from dealing with lots and lots of Nagios messages. Each facility
+being monitored needs to be setup with explicit notifications, and
+the service itself needs to be restarted when any change is made to this
+structure. ComHub is designed to get ALL messages from Nagios, and then do the
+processing itself.
+
+Currently, the main method for receiving messages is an HTTP POST to the
+Messages controller. However, most of the thinking has been done to read an
+IMAP folder on a mail server, and process the messages that ComHub finds there.
+
+Also currently, there are two ways of notifying Contacts of incoming messages.
+The first is good, old-fashioned email. The second is SMS through Twilio.
+Future options may include IM (to a Jabber server) and updates to a status.net
+server (like indenti.ca), which should be subscribable through RSS.
+
+The general idea is that some mechanism will insert a Message into the system.
+The Message will be parsed, and the involved Contacts will be surmised. Each
+Contact will be checked to see if they are "on call." If so, each of their
+Channels will be checked to see if it is active, each of their Words will be 
+checked to see if they are subscribed, and each of their Patterns will be 
+checked to see if that particular Message body is being filtered. Once the 
+Notifications go out, various response codes can be transmitted with the 
+Acknowledgment, and various actions can be taken based on this.
+
+In the .../lib/ directory, you can find some files to help. First, there's a
+script called `inject.rb' that will POST a Message to the app for testing.
+(Yes, I realize that I should learn proper TDD. I'm getting to it.) Second,
+there's the `notify_by_xml.rb' script that I use in Nagios for sending
+Messages to the app in production.
+
+
+= ToDo
+
+* Move test scripts (in lib/) to proper tests
+* Make nice with mobile browsers
+* Finish email polling
+* Make acknowledgments respond to the appropriate Nagios instance
+* Implement confirmation of email delivery with read receipt (?)
+* Make Keywords work as a hierarchical thing (editing page will be fun...)
+* Add escalation paths
+* Add security? (At least hide the 'destroy' buttons.)
+* Add URL's to email notifications to do more "stuff" than just suppress
+* Add ability to make a call and play a recording through Twilio (?)
+* Implement queing/retrying of failed messages
+* Make a better panic message function (than just sending an SMS via SMTP)
+
+
+= Dependencies
+
+So far, this app depends on:
+
+== Packages
+* libxmpp4r-ruby
+* libopenssl-ruby
+* libmysql-ruby
+
+== Plugins
+* acts_as_nested_set (not really implemented yet)
+* acts_as_state_machine (probably overkill)
+* annotate_models (purely optional)
+
+== Gems
+* twiliolib
+* will_paginate
+
+
+= Installation
+
+ * Setup the repo
+ * Create config/database.yml, config/local.yml, and
+   config/initializers/session_store.rb from templates
+   (and test/fixtures/channels.yml.template for testing).
+ * Run `rake db:schema:load'
+ * Configure Passenger Phusion for Apache2(?)
+
+= License
+
+ComHub - A centralized notification dispatcher.
+
+Author:: David Krider (david.krider@thedatacave.com)
+Copyright:: Copyright (C) 2011, Data Cave, Inc. (http://www.thedatacave.com/)
+License:: 
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.

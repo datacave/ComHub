@@ -1,0 +1,24 @@
+# == Schema Information
+# Schema version: 20101206175716
+#
+# Table name: keywords
+#
+#  id          :integer(4)      not null, primary key
+#  created_at  :datetime
+#  updated_at  :datetime
+#  designation :string(255)
+#  lft         :integer(4)
+#  rgt         :integer(4)
+#  parent_id   :integer(4)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+
+one:
+  designation: Everything

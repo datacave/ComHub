@@ -1,0 +1,24 @@
+<h2>Listing contacts</h2>
+
+<table>
+  <tr><th>Username<th>Full Name<th>Enabled?<th>On Call?<th>Groups<th>Options
+  </tr>
+
+<% @contacts.each do |contact| %>
+  <tr>
+    <td><%= link_to contact.username, contact %>
+    <td><%= contact.full_name %>
+    <td><%= contact.enabled ? 'Yes' : 'No' %>
+    <td><%= contact.on_call? %>
+    <td><%= contact.groups.map { |g| link_to g.name, edit_group_path(g) }.to_sentence %>
+    <td><%= link_to 'Edit', edit_contact_path(contact) %> |
+    <%= link_to 'Destroy', contact, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<p class="navigation">
+<%= link_to 'New contact', new_contact_path %>
+</p>

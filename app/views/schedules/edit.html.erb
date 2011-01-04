@@ -1,0 +1,12 @@
+<h1>Editing schedule</h1>
+
+<% form_for(@schedule) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @schedule %> |
+<%= link_to 'Back', schedules_path %>

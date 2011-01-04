@@ -1,0 +1,23 @@
+<table>
+  <tr><th>Created At<td><%= @notification.created_at.strftime("%c") %></tr>
+  <tr><th>Sender<td><%= @notification.sender %></tr>
+  <tr><th>Recipient<td><%= @notification.channel.address %></tr>
+  <tr><th>Mechanism<td><%= @notification.channel.mechanism.designation %></tr>
+  <tr><th>Importance<td><%= @notification.importance %></tr>
+  <tr><th>Subject<td><%= @notification.subject %></tr>
+  <tr><th>Body<td><%= @notification.body %></tr>
+  <tr><th>State<td><%= @notification.state.capitalize %></tr>
+  <tr><th>Message<td><%= link_to @notification.message.id, @notification.message %></tr>
+  <tr><th>Keywords<td><%= @notification.keywords %></tr>
+  <tr><th>Code<td><%= @notification.code %></tr>
+  <tr><th>Unique ID<td><%= @notification.uid %></tr>
+</table>
+
+<h3>Associated acknowledgments</h3>
+<p style="text-align: center"><%= @notification.acknowledgments.map {
+  |a| link_to a.id, acknowledgment_path(a) }.to_sentence %></p>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_notification_path(@notification) %> |
+<%= link_to 'Back', notifications_path %>
+</p>

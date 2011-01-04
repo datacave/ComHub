@@ -1,0 +1,41 @@
+<h2>Showing message</h2>
+
+<table>
+  <tr><th>Created At<td><%= @message.created_at.strftime("%c") %></tr>
+  <tr><th>Timestamp<td><%= @message.stamp %></tr>
+  <tr><th>Sender<td><%= @message.sender %></tr>
+  <tr><th>Recipients (Direct)<td><%= @message.recipients_direct %></tr>
+  <tr><th>Recipients (Indirect)<td><%= @message.recipients_indirect %></tr>
+  <tr><th>Importance<td><%= @message.importance %></tr>
+  <tr><th>Subject<td><%= @message.subject %></tr>
+  <tr><th>Body<td><%= @message.body %></tr>
+  <tr><th>Keywords<td><%= @message.keywords %></tr>
+  <tr><th>State<td style="background-color: <%= colorize(@message.state) %>"><%= @message.state.capitalize %></tr>
+</table>
+
+<h3>Associated notifications</h3>
+<!-- <p style="text-align: center">
+  @message.notifications.map { |n| link_to n.id, notification_path(n) }.to_sentence
+</p> -->
+
+<table>
+  <tr><th>Recipient<th>Subject<th>Timestamp<th>State<th>Options
+  </tr>
+<% @message.notifications.each do |notification| %>
+  <tr>
+    <td><%= link_to_unless notification.channel.nil?, notification.channel.address,
+      contact_path(notification.channel.contact) %>
+    <td><%= notification.subject %>
+    <td><%= notification.created_at.strftime("%c") %>
+    <td style="background-color: <%= colorize(notification.state) %>"><%= notification.state.capitalize %>
+    <td><%= link_to 'Show', notification %> |
+    <%= link_to 'Edit', edit_notification_path(notification) %> |
+    <%= link_to 'Destroy', notification, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>
+</p>

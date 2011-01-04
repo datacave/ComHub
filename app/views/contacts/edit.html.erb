@@ -1,0 +1,81 @@
+<h1>Editing contact</h1>
+
+<% form_for(@contact) do |f| %>
+  <%= f.error_messages %>
+
+<div>
+
+<script>
+  document.observe('dom:loaded', function() {
+    new Control.Tabs('contact_tabs');
+  });
+</script>
+
+<div id="main">
+  <ul id="contact_tabs" class="subsection_tabs">
+    <li class="tab"><a href="#basics">Basics</a></li>
+    <li class="tab"><a href="#groups">Groups</a></li>
+    <li class="tab"><a href="#schedules">Schedules</a></li>
+    <li class="tab"><a href="#keywords">Keywords</a></li>
+    <li class="tab"><a href="#channels">Channels</a></li>
+    <li class="tab"><a href="#patterns">Filters</a></li>
+  </ul>
+
+  <div id="basics">
+    <p><%= f.label :username %> <%= f.text_field :username %></p>
+    <p><%= f.label :last_name, "Last Name" %> <%= f.text_field :last_name %></p>
+    <p><%= f.label :first_name, "First Name" %> <%= f.text_field :first_name %></p>
+    <p><%= f.label :enabled %> <%= f.check_box :enabled %></p>
+  </div>
+
+  <div id="groups">
+    <% for group in Group.find(:all) %>
+      <p>
+	<%= check_box_tag "contact[group_ids][]", group.id, @contact.groups.include?(group) %>
+	<%= group.name.capitalize %>
+      </p>
+    <% end %>
+  </div>
+
+  <div id="schedules">
+    <% for tw in TimeWindow.find(:all) %>
+      <p>
+	<%= check_box_tag "contact[time_window_ids][]", tw.id, @contact.time_windows.include?(tw) %>
+	<%= tw.description %>
+      </p>
+    <% end %>
+  </div>
+
+  <div id="keywords">
+    <% for keyword in Keyword.find(:all) %>
+      <p>
+	<%= check_box_tag "contact[keyword_ids][]", keyword.id, @contact.keywords.include?(keyword) %>
+	<%= keyword.designation %>
+      </p>
+    <% end %>
+  </div>
+
+  <div id="channels">
+    <%= render :partial => 'channel', :collection => @contact.channels %>
+    <%= add_channel_link "Add a channel" %>
+  </div>
+
+  <div id="patterns">
+    <%= render :partial => 'pattern', :collection => @contact.patterns %>
+    <%= add_pattern_link "Add a Filter" %>
+  </div>
+
+</div>
+
+<!-- <p style='content: "."; display: block; height: 0; clear: both; visibility: hidden;'></p> -->
+</div>
+  
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<p class="navigation">
+<%= link_to 'Show', @contact %> |
+<%= link_to 'Back', contacts_path %>
+</p>

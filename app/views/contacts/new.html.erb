@@ -1,0 +1,25 @@
+<h1>New contact</h1>
+
+<% form_for(@contact) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <tr><th><%= f.label :username %><td><%= f.text_field :username %></tr>
+    <tr><th><%= f.label :last_name %><td><%= f.text_field :last_name %></tr>
+    <tr><th><%= f.label :first_name %><td><%= f.text_field :first_name %></tr>
+    <tr><th><%= f.label :enabled %><td><%= f.check_box :enabled %></tr>
+    <tr><th>Groups<td>
+    <% for group in Group.find(:all) %>
+      <%= group.name %>
+      <%= check_box_tag "contact[group_ids][]", group.id, @contact.groups.include?(group) %>
+      <br/>
+    <% end %>
+    </tr>
+  </table>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<p class="navigation">
+<%= link_to 'Back', contacts_path %>
+</p>

@@ -1,0 +1,35 @@
+twilio_version: 2010-04-01
+twilio_sid: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+twilio_token: YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+twilio_number: 18005551212
+
+admin_number: 18005551212
+admin_pager: 8005551212@some.provider.com
+
+development:
+  server: 10.1.1.1
+  
+production:
+  server: 10.1.1.2
+#  port: 993
+#  ssl: true
+#  username:
+#  password:
+
+production_user: dodgeball
+production_domain: domain.com
+production_server: comhub.domain.com
+
+return_address: comhub@domain.com
+return_url: https://admin:nimda@comhub.domain.com/notifications/confirm
+
+testing_email: first.last@domain.com
+testing_phone: +18005551212
+
+jabber_server: 10.1.1.2
+jabber_account: comhub@domain.com/comhub
+jabber_password: password
+
+nagios_server: nagios.internal.com
+nagios_username: username
+nagios_password: password

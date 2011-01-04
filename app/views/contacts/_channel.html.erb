@@ -1,0 +1,16 @@
+<div class="channel">
+
+<% new_or_existing = channel.new_record? ? 'new' : 'existing' %>
+<% prefix = "contact[#{new_or_existing}_channel_attributes][]" %>
+<% fields_for prefix, channel do |channel_form| %>
+  <p style="border: 1px dotted gray;">
+    Channel: <%= channel_form.text_field :address %>
+    Enabled: <%= channel_form.select :enabled, [['No' , false], ['Yes' , true]] %><br/>
+    Mechanism: <%= channel_form.collection_select :mechanism_id, Mechanism.all, :id, :designation %>
+    Time Window: <%= channel_form.collection_select :time_window_id, TimeWindow.all, :id, :description,
+      :include_blank => 'Default' %>
+    <%= link_to_function "remove" , "$(this).up('.channel').remove()" %>
+  </p>
+<% end %>
+
+</div>

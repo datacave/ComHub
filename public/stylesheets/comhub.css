@@ -1,0 +1,204 @@
+body {
+    font-family: droid sans, tahoma, verdana, sans-serif;
+    background-color: white;
+    margin: 1em 2em;
+}
+
+pre {
+    background-color: #eee;
+}
+
+a {
+    color: #000;
+}
+
+a:visited {
+    color: #bbb;
+}
+
+a:hover {
+    color: #88A;
+    background-color:#125;
+}
+
+.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+table {
+  border: 1px dotted #888;
+  margin: auto;
+  width: auto;
+}
+
+tr {
+  /* height: 3em; */
+}
+
+th {
+  border: 1px dotted #aaa;
+}
+
+td {
+  border: 1px dotted #aaa;
+  /* text-align: center; */
+  /* width: 10px; */
+  padding: .5em;
+}
+
+td.options{
+  text-align: center;
+}
+
+#content {
+  background-color: #888;
+  border: 10px solid #ccc;
+  padding: 10px 10px 20px 10px;
+}
+
+h1 {
+  text-align: center;
+  vertical-align: text-bottom;
+  font-size: 2em;
+  color: #0A1B46;
+  /*
+  height: 55px;
+  background-image: url("../images/aei_logo.png");
+  background-repeat: no-repeat;
+  background-position: top right
+  */
+}
+
+h2 {
+  text-align: center;
+  /* background: #039; */
+  color: #0A1B46;
+  padding: .25em;
+  font-size: 1.75em;
+  font-weight: bold;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.navigation {
+  text-align: center;
+  background-color: #125;
+  font-weight: bold;
+  color: white;
+  padding: .5em;
+  clear: both;
+}
+
+.navigation a {
+  color: white;
+  font-weight: bold;
+}
+
+#login_logout {
+  float: right;
+  clear: right;
+  font-size: smaller;
+  color: white;
+  padding: .5em;
+}
+
+#login_logout a {
+  color: gray;
+}
+
+table.no_decoration {
+  border: 0;
+  width: 0;
+}
+
+table.no_decoration td {
+  border: 0;
+}
+
+table.no_decoration th {
+  border: 0;
+}
+
+.centered {
+  text-align: center;
+}
+
+label {
+  float: left;
+  width: 10em;
+}
+
+/*
+#main ul.subsection_tabs {
+    list-style: none;
+    margin: 0 0 5px 0;
+    padding: 0;
+    clear: both;
+    border-bottom: 1px solid #ccc;
+    height: 20px;
+    clear: both
+}
+
+#main ul.subsection_tabs li.tab {
+    float: left;
+    margin-right: 7px;
+    text-align: center
+}
+
+#main ul.subsection_tabs li.tab a {
+    display: block;
+    height: 20px;
+    padding: 0 6px 0 6px;
+    background-color: #fff;
+    color: #666;
+    width: 80px
+}
+
+#main ul.subsection_tabs li.tab a.hover {
+    color: #666
+}
+
+#main ul.subsection_tabs li.tab a.active {
+    background-color: #ddd
+}
+
+#main ul.subsection_tabs li.source_code {
+    float: right
+}
+*/

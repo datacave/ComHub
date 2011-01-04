@@ -1,0 +1,22 @@
+<h1>Listing patterns</h1>
+
+<table>
+  <tr><th>Contact<th>Definition<th>Options
+  </tr>
+
+<% @patterns.each do |pattern| %>
+  <tr>
+    <td><%= pattern.contact.username %>
+    <td><%= pattern.definition %>
+    <td><%= link_to 'Show', pattern %> |
+    <%= link_to 'Edit', edit_pattern_path(pattern) %> |
+    <%= link_to 'Destroy', pattern, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<p class="navigation">
+<%= link_to 'New pattern', new_pattern_path %>
+</p>

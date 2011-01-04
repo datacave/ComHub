@@ -1,0 +1,18 @@
+<h1>Editing pattern</h1>
+
+<% form_for(@pattern) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <tr><th><%= f.label :contact %><td><%= f.collection_select :contact_id,
+      Contact.all, :id, :username %></tr>
+    <tr><th><%= f.label :definition %><td><%= f.text_field :definition %></tr>
+  </table>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<p class="navigation">
+<%= link_to 'Show', @pattern %> |
+<%= link_to 'Back', patterns_path %>
+</p>

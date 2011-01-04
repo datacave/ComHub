@@ -1,0 +1,58 @@
+<h2>Showing contact</h2>
+
+<table>
+  <tr><th>Username<td><%= @contact.username %></tr>
+  <tr><th>Last name<td><%= @contact.last_name %></tr>
+  <tr><th>First name<td><%= @contact.first_name %></tr>
+  <tr><th>Enabled<td><%= @contact.enabled? %></tr>
+</table>
+
+<h3>Groups</h3>
+<table>
+<% for group in Group.find(:all) %>
+  <tr><th><%= group.name %><td>
+    <%= check_box_tag "contact[group_ids][]", group.id,
+      @contact.groups.include?(group), { :disabled => true } %>
+  </tr>
+<% end %>
+</table>
+
+<h3>Channels</h3>
+<table>
+  <tr><th>Address<th>Mechanism<th>Active?<th>Time Window</tr>
+  <% @contact.channels.each do |c| %>
+    <tr><td><%= c.address %><td><%= c.mechanism.designation %>
+      <td><%= c.enabled %>
+      <td><%= c.time_window.description unless c.time_window.nil? %></tr>
+  <% end %>
+</table>
+
+<h3>Time Windows</h3>
+<table>
+  <tr><th>Description<th>Definition<th>Active?</tr>
+  <% @contact.schedules.each do |s| %>
+    <tr><td><%= s.time_window.description %><td><%= s.time_window.definition %>
+      <td><%= s.time_window.active %></tr>
+  <% end %>
+</table>
+
+<h3>Subscribed Keywords</h3>
+<table><tr><td>
+<ul>
+  <% @contact.keywords.each do |keyword| %>
+    <li><%= keyword.designation %></li>
+  <% end %>
+</ul>
+</tr></table>
+
+<h3>Filters</h3>
+<table><tr><td>
+  <% @contact.patterns.each do |pattern| %>
+    <%= pattern.definition %> (<%= pattern.active %>) (<%= pattern.duration %>)
+  <% end %>
+</tr></table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>
+</p>

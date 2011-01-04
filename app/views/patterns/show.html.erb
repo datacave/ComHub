@@ -1,0 +1,11 @@
+<h1>Showing pattern</h1>
+
+  <table>
+    <tr><th>Contact<td><%= @pattern.contact.username %></tr>
+    <tr><th>Definition<td><%= @pattern.definition %></tr>
+  </table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_pattern_path(@pattern) %> |
+<%= link_to 'Back', patterns_path %>
+</p>

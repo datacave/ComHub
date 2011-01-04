@@ -1,0 +1,17 @@
+<h1>New time window</h1>
+
+<% form_for(@time_window) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <tr><th><%= f.label :description %><td><%= f.text_field :description %></tr>
+    <tr><th><%= f.label :definition %><td><%= f.text_field :definition %></tr>
+    <tr><th><%= f.label :active %><td><%= f.check_box :active %></tr>
+  </table>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<p class="navigation">
+<%= link_to 'Back', time_windows_path %>
+</p>

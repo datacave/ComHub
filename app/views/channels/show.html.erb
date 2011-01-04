@@ -1,0 +1,12 @@
+<h1>Showing channel</h1>
+
+<table>
+  <tr><th>Address<td><%= @channel.address %></tr>
+  <tr><th>Mechanism<td><%= @channel.mechanism.designation %></tr>
+  <tr><th>Enabled<td><%= @channel.enabled %></tr>
+</table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_channel_path(@channel) %> |
+<%= link_to 'Back', channels_path %>
+</p>

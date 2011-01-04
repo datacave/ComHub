@@ -1,0 +1,41 @@
+# == Schema Information
+# Schema version: 20101206175716
+#
+# Table name: groups
+#
+#  id          :integer(4)      not null, primary key
+#  created_at  :datetime
+#  updated_at  :datetime
+#  name        :string(255)
+#  description :string(255)
+#  enabled     :boolean(1)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+
+one:
+  name: Test
+  description: Test Group
+  enabled: true
+  
+two:
+  name: Logical
+  description: Logical Group
+  enabled: true
+
+three:
+  name: Physical
+  description: Physical Group
+  enabled: true
+
+four:
+  name: Emergency
+  description: Emergency Group
+  enabled: true
+  

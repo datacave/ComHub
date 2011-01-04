@@ -1,0 +1,22 @@
+<h1>Listing time windows</h1>
+
+<table>
+  <tr><th>Description<th>Definition<th>Active?<th>Options
+  </tr>
+
+<% @time_windows.each do |time_window| %>
+  <tr>
+    <td><%= link_to time_window.description, time_window %>
+    <td><%= time_window.definition %>
+    <td><%= time_window.active %>
+    <td><%= link_to 'Edit', edit_time_window_path(time_window) %> |
+    <%= link_to 'Destroy', time_window, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<p class="navigation">
+<%= link_to 'New time window', new_time_window_path %>
+</p>

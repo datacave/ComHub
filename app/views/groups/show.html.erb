@@ -1,0 +1,17 @@
+<h1>Showing group</h1>
+
+<table>
+  <tr><th>Name<td><%= @group.name %></tr>
+  <tr><th>Description<td><%= @group.description %></tr>
+  <tr><th>Enabled<td><%= @group.enabled %></tr>
+  <tr><th>Members<td>
+    <% @group.contacts.each do |c| %>
+      <%= link_to c.username, c %><br/>
+    <% end %>
+  </tr>
+</table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_group_path(@group) %> |
+<%= link_to 'Back', groups_path %>
+</p>

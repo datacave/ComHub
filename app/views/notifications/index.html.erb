@@ -1,0 +1,28 @@
+<h1>Listing notifications</h1>
+
+<table>
+  <tr><th>Recipient<th>Subject<th>Timestamp<th>Keywords<th>State<th>Options
+  </tr>
+
+<% @notifications.each do |notification| %>
+  <tr>
+    <td><%= notification.channel.address unless notification.channel.nil? %>
+    <td><%= notification.subject %>
+    <td><%= notification.created_at.strftime("%c") %>
+    <td><%= notification.keywords %>
+    <td style="background-color: <%= colorize(notification.state) %>"><%= notification.state.capitalize %>
+    <td><%= link_to 'Show', notification %> |
+    <%= link_to 'Edit', edit_notification_path(notification) %> |
+    <%= link_to 'Destroy', notification, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
+
+<%= will_paginate @notifications %>
+
+<p class="navigation">
+<%= link_to 'New notification', new_notification_path %> |
+<%= link_to 'Search', :controller => :notifications, :action => :search %>
+</p>

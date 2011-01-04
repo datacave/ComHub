@@ -1,0 +1,17 @@
+<h2>Showing acknowledgment</h2>
+
+<table>
+  <tr><th>Created At<td><%= @acknowledgment.created_at.strftime("%c") %></tr>
+  <tr><th>From<td><%= @acknowledgment.from %></tr>
+  <tr><th>To<td><%= @acknowledgment.to %></tr>
+  <tr><th>Body<td><%= @acknowledgment.body %></tr>
+  <tr><th>Status<td><%= @acknowledgment.status %></tr>
+  <tr><th>Notification<td><%= link_to @acknowledgment.notification.id, 
+    notification_path(@acknowledgment.notification) unless
+    @acknowledgment.notification.nil? %></tr>
+</table>
+
+<p class="navigation">
+<%= link_to 'Edit', edit_acknowledgment_path(@acknowledgment) %> |
+<%= link_to 'Back', acknowledgments_path %>
+</p>

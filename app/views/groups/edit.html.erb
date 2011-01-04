@@ -1,0 +1,24 @@
+<h1>Editing group</h1>
+
+<% form_for(@group) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <tr><th><%= f.label :name %><td><%= f.text_field :name %></tr>
+    <tr><th><%= f.label :description %><td><%= f.text_field :description %></tr>
+    <tr><th><%= f.label :enabled %><td><%= f.check_box :enabled %></tr>
+    <tr><th>Members<td>
+      <% Contact.all.each do |c| %>
+	<%= check_box_tag "group[contact_ids][]", c.id,
+	  @group.contacts.include?(c) %>: <%= c.username %><br/>
+      <% end %>
+    </tr>
+  </table>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<p class="navigation">
+<%= link_to 'Show', @group %> |
+<%= link_to 'Back', groups_path %>
+</p>

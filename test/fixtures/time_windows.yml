@@ -1,0 +1,40 @@
+# == Schema Information
+# Schema version: 20101206175716
+#
+# Table name: time_windows
+#
+#  id          :integer(4)      not null, primary key
+#  created_at  :datetime
+#  updated_at  :datetime
+#  definition  :string(255)
+#  description :string(255)
+#  active      :boolean(1)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+#   column: value
+#
+# two:
+#   column: value
+
+one:
+  description: Testing
+  definition: Sat-Sun; Mon Wed 0700-0900; Thu 0700-0900 1000-1200
+  active: 1
+
+work:
+  description: Standard Work Hours
+  definition: Mon-Fri 0800-1700
+  active: 1
+
+nonwork:
+  description: Standard Out-of-Work Hours
+  definition: Mon-Fri 1700-0800; Sat-Sun
+  active: 1
+
+fulltime:
+  description: 24x7, 365
+  definition: Mon-Sun
+  active: 1

@@ -1,0 +1,24 @@
+<h1>Listing channels</h1>
+
+<table>
+  <tr><th>Mechanism<th>Contact<th>Address<th>Enabled<th>Options
+  </tr>
+
+<% @channels.each do |channel| %>
+  <tr>
+    <td><%= channel.mechanism.designation %>
+    <td><%= channel.contact.username %>
+    <td><%= channel.address %>
+    <td><%= channel.enabled %>
+    <td><%= link_to 'Show', channel %> |
+    <%= link_to 'Edit', edit_channel_path(channel) %> |
+    <%= link_to 'Destroy', channel, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<p class="navigation">
+<%= link_to 'New channel', new_channel_path %>
+</p>

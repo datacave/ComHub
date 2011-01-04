@@ -1,0 +1,19 @@
+<h1>New message</h1>
+
+<% form_for(@message) do |f| %>
+  <%= f.error_messages %>
+  <table>
+    <tr><th><%= f.label :sender %><td><%= f.text_field :sender %></tr>
+    <tr><th><%= f.label :recipients %><td><%= f.text_field :recipients_direct %></tr>
+    <tr><th><%= f.label :subject %><td><%= f.text_field :subject %></tr>
+    <tr><th><%= f.label :body %><td><%= f.text_area :body, :cols => 25 %></tr>
+    <tr><th><%= f.label :keywords %><td><%= f.text_field :keywords %></tr>
+  </table>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<p class="navigation">
+<%= link_to 'Back', messages_path %>
+</p>

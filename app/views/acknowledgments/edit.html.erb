@@ -1,0 +1,12 @@
+<h1>Editing acknowledgment</h1>
+
+<% form_for(@acknowledgment) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @acknowledgment %> |
+<%= link_to 'Back', acknowledgments_path %>
