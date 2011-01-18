@@ -128,7 +128,7 @@ class Notification < ActiveRecord::Base
 		data = {
 			'From' => LOCAL['twilio_number'],
 			'To' => channel.address,
-			'Body' => (keywords + ": " + body)[0..160],
+			'Body' => (keywords + ": " + body)[0..159],
 			'StatusCallback' => LOCAL['return_url']
 		}
 		response = account.request("/#{api_version}/Accounts/#{account_sid}/SMS/Messages",

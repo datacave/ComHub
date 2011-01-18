@@ -21,6 +21,8 @@ class Keyword < ActiveRecord::Base
 	def self.includes?(keyword)
 		return Keyword.find_by_designation(keyword)
 	end
-	
+
+  validates_uniqueness_of :designation
+  
 end
 

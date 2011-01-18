@@ -37,7 +37,7 @@ class Acknowledgment < ActiveRecord::Base
 
     begin
       # Suppress these kinds of messages
-      code = body[0,3]
+      code = body.strip
       c = Channel.find_by_address(from)
       # Probably ought to be a time limit on this.
       n = Notification.find_last_by_channel_id_and_code(c.id, code)
@@ -62,13 +62,13 @@ class Acknowledgment < ActiveRecord::Base
         #   send_notification=on&com_data=asdf&btnSubmit=Commit#'
         #   http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
 
-        if m = notification.body.match(/PROBLEM: (.+) on (\S+) \(/)
+        if m = notification.body.match(/PROBLEM: (\w+) on (\S+) \(/)
           service = m[1]
           host = m[2]
           url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=34&cmd_mod=2&host=" +
             "#{host}&service=#{service.gsub(/ /,"%20")}&sticky_ack=on&" +
             "send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
-        elsif m = notification.body.match(/PROBLEM: (S+) \(/)
+        elsif m = notification.body.match(/PROBLEM: (\w+) \(/)
           host = m[1]
           url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=33&host=#{host}"
         end
