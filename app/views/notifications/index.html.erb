@@ -5,7 +5,7 @@
   </tr>
 
 <% @notifications.each do |notification| %>
-  <tr>
+  <tr class="<%= cycle('even', 'odd') %>">
     <td><%= notification.channel.address unless notification.channel.nil? %>
     <td><%= notification.subject %>
     <td><%= notification.created_at.strftime("%c") %>

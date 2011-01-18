@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <h1><img src="/images/logo.png">&nbsp;Communications Hub</h1>
+  <h1><img src="/images/comhub_header.png"></h1>
 
   <p class="navigation">
     <%= link_to 'Contacts', :contacts %> |
@@ -25,6 +25,11 @@
 <p style="color: green"><%= flash[:notice] %></p>
 
 <%= yield %>
+
+<p id="footer"><img src="/images/comhub_ganglia.png"><br/>
+    Copyright &copy; 2011, <a href="http://www.thedatacave.com">Data Cave, Inc.</a><br/>
+    Licensed under the Apache Public License, v2.<br/>
+</p>
 
 </body>
 </html>

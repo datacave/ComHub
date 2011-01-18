@@ -4,25 +4,25 @@ module ApplicationHelper
 	def colorize(state)
 		case state
 			when "received"
-				"yellow"
+				"#f9e21e" # yellow
 			when "throttled"
-				"orange"
+				"#fc7b11" # orange
 			when "suppressed"
-				"red"
+				"#c41010" # red
 			when "addressed"
-				"blue"
+				"#3967b0" # blue
 			when "apportioned"
-				"green"
+				"#11a20e" # green
 			when "created"
-				"yellow"
+				"#f9e21e" # yellow
 			when "sent"
-				"orange"
+				"#fc7b11" # orange
 			when "delivered"
-				"green"
+				"#11a20e" # green
 			when "confirmed"
-				"blue"
+				"#3967b0" # blue
 			when "acknowledged"
-				"purple"
+				"#671f97" # purple
 		end
 	end
 

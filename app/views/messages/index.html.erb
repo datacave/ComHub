@@ -5,7 +5,7 @@
     <th>State<th>Options</tr>
 
 <% @messages.each do |message| %>
-  <tr>
+  <tr class="<%= cycle('even', 'odd') %>">
     <td><%= message.sender %>
     <td><%= message.recipients_direct %>
     <td><%= message.subject %>

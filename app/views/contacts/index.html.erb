@@ -5,7 +5,7 @@
   </tr>
 
 <% @contacts.each do |contact| %>
-  <tr>
+  <tr class="<%= cycle('even', 'odd') %>">
     <td><%= link_to contact.username, contact %>
     <td><%= contact.full_name %>
     <td><%= contact.enabled ? 'Yes' : 'No' %>

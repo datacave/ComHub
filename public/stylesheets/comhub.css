@@ -1,7 +1,12 @@
 body {
-    font-family: droid sans, tahoma, verdana, sans-serif;
+    font-family: Ubuntu, Tahoma, Verdana, sans-serif;
     background-color: white;
     margin: 1em 2em;
+}
+
+@font-face {
+    font-family: Ubuntu;
+    src: url('/Ubuntu-R.ttf') format('truetype');
 }
 
 pre {
@@ -58,9 +63,11 @@ a:hover {
 }
 
 table {
-  border: 1px dotted #888;
+  border-bottom: 1px dotted #888;
+  border-right: 1px dotted #888;
   margin: auto;
   width: auto;
+  border-collapse: collapse;
 }
 
 tr {
@@ -68,14 +75,18 @@ tr {
 }
 
 th {
-  border: 1px dotted #aaa;
+  border-top: 1px dotted #888;
+  border-left: 1px dotted #888;
+  padding: .25em;
+  /* -moz-border-radius: 5px; */
 }
 
 td {
-  border: 1px dotted #aaa;
+  border-top: 1px dotted #888;
+  border-left: 1px dotted #888;
   /* text-align: center; */
   /* width: 10px; */
-  padding: .5em;
+  padding: .25em;
 }
 
 td.options{
@@ -123,6 +134,8 @@ h3 {
   color: white;
   padding: .5em;
   clear: both;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 
 .navigation a {
@@ -162,6 +175,19 @@ table.no_decoration th {
 label {
   float: left;
   width: 10em;
+}
+
+#footer {
+    text-align: center;
+    font-weight: bolder;
+}
+
+.even {
+    background-color: whitesmoke;
+}
+
+.odd {
+    background-color: white;
 }
 
 /*
