@@ -61,13 +61,15 @@ class Notification < ActiveRecord::Base
           if channel.in_play?
 						if channel.mechanism.designation == "sms"
 							# Total length must be <= 160.
-							if message.body.match(/^PROBLEM/)
+							if message.body.match(/^PROBLEM/) &&
+                  message.sender.match(/nagios/)
 								text = message.body[0,154] + " (#{code})"
 							else
 								text = message.body[0,160]
 							end
 						else
-							if message.body.match(/^PROBLEM/)
+							if message.body.match(/^PROBLEM/) &&
+                  message.sender.match(/nagios/)
 								text = message.body + " (#{code})"
 							else
 								text = message.body
@@ -128,7 +130,7 @@ class Notification < ActiveRecord::Base
 		data = {
 			'From' => LOCAL['twilio_number'],
 			'To' => channel.address,
-			'Body' => (keywords + ": " + body)[0..159],
+			'Body' => body,
 			'StatusCallback' => LOCAL['return_url']
 		}
 		response = account.request("/#{api_version}/Accounts/#{account_sid}/SMS/Messages",
