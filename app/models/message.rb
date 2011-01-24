@@ -53,6 +53,8 @@ class Message < ActiveRecord::Base
 
 	states.each { |s| named_scope s, :conditions => { :state => s.to_s } }
 
+  LEVELS = %w{NORMAL CRITICAL INFORMATIONAL MAJOR MINOR}
+
   after_create :process
 
 	def process

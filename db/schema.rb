@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101206175716) do
+ActiveRecord::Schema.define(:version => 20110124192323) do
 
   create_table "acknowledgments", :force => true do |t|
     t.datetime "created_at"
@@ -98,9 +98,9 @@ ActiveRecord::Schema.define(:version => 20101206175716) do
     t.datetime "stamp"
     t.string   "subject"
     t.text     "body"
-    t.integer  "importance"
     t.text     "keywords"
     t.string   "state",               :default => "received"
+    t.string   "importance"
   end
 
   create_table "notifications", :force => true do |t|

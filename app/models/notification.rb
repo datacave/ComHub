@@ -56,7 +56,8 @@ class Notification < ActiveRecord::Base
 		contacts.each do |contact|
       keywords = message.keywords.split(/, ?/)
 			if contact.enabled? && contact.on_call? && 
-				contact.subscribed?(keywords) && !contact.filtering?(message.body)
+				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
+        message.importance.downcase != 'informational'
 				contact.channels.active.each do |channel|
           if channel.in_play?
 						if channel.mechanism.designation == "sms"
@@ -106,8 +107,6 @@ class Notification < ActiveRecord::Base
 		msg << "X-Priority: 1\n" if importance
 		# There needs to be a blank line in here to trigger the actual
 		# start of the body of the message.
-		msg << "\n"
-		msg << keywords
 		msg << "\n"
 		msg << body
 		begin
