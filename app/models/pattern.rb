@@ -16,7 +16,7 @@ class Pattern < ActiveRecord::Base
 	belongs_to :contact
 
 	def in_play?
-		if duration.nil?
+		if duration.empty?
 			return active?
 		else
 			if updated_at + duration.to_i.hours < DateTime.now then
