@@ -57,7 +57,7 @@ class Notification < ActiveRecord::Base
       keywords = message.keywords.split(/, ?/)
 			if contact.enabled? && contact.on_call? && 
 				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
-        message.importance.downcase != 'informational'
+        message.important?
 				contact.channels.active.each do |channel|
           if channel.in_play?
 						if channel.mechanism.designation == "sms"

@@ -64,16 +64,18 @@ class Message < ActiveRecord::Base
 			m = Message.find(:all, :order => "created_at DESC", :limit => 3)[2]
 			m ? t = m.created_at : t = Time.now - 1.day
 			freshness = Time.now - t
-			if freshness < 30
+			if freshness < 30 # seconds
         # FIXME: Explanation of the order of events?...
-        m = Message.find(:last, :conditions => "state = 'throttled' AND
-          created_at >= '#{(DateTime.now - 5.seconds).to_s(:db)}'")
-        logger.info(m.to_yaml)
-				self.throttle!
+        self.throttle! unless body.match(/throttled!$/)
+        # Don't send another message about throttling for 30 minutes
+        m = Message.find(:last, :conditions =>
+          "subject = 'Messages are being throttled!' AND
+          created_at >= '#{(DateTime.now - 30.seconds).to_s(:db)}'")
         if m.nil?
           Message.create(
+            :sender => "comhub@data-cave.com",
             :body => "Messages are being throttled!",
-            :subject => "Messages are being throttled!",
+            :subject => "There may be more problems coming in than are being reported!",
             :recipients_direct => recipients_direct,
             :stamp => DateTime.now,
             :keywords => keywords
@@ -153,4 +155,15 @@ class Message < ActiveRecord::Base
 		system("echo \"#{text}\" | mail #{LOCAL['admin_pager']}")
 	end
 
+  def important?
+    if !importance.nil? && !importance.empty?
+      if importance == "Informational"
+        false
+      else
+        true
+      end
+    else
+      true
+    end
+  end
 end
