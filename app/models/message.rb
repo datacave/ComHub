@@ -118,7 +118,7 @@ class Message < ActiveRecord::Base
 					logger.error(e.to_yaml)
 				ensure
 					# Check if notifications have not come to rest at the "delivered" state.
-					if notifications.count == 0
+					if notifications.count == 0 && self.important?
 						Message.admin_override("ALERT! Message #{id} did not generate any notifications!")
 					else
 						failures = notifications.select { |n| n.state != 'delivered' }
