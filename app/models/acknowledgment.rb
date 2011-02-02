@@ -62,7 +62,7 @@ class Acknowledgment < ActiveRecord::Base
         #   send_notification=on&com_data=asdf&btnSubmit=Commit#'
         #   http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
 
-        if m = notification.body.match(/PROBLEM: (\w+) on (\S+) \(/)
+        if m = notification.body.match(/PROBLEM: (.*) on (\S+) \(/)
           service = m[1]
           host = m[2]
           url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=34&cmd_mod=2&host=" +
