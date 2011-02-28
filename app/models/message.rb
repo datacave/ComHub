@@ -157,7 +157,7 @@ class Message < ActiveRecord::Base
 
   def important?
     if !importance.nil? && !importance.empty?
-      if importance == "Informational"
+      if importance.downcase == "informational"
         false
       else
         true
