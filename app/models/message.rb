@@ -126,7 +126,7 @@ class Message < ActiveRecord::Base
 							# Should probably create a real message and force it to ignore the normal rules.
 							message = "Notifications for message #{id} did not go through!"
 							logger.error("Message was: #{message}")
-							Message.admin_override(message)
+							#Message.admin_override(message)
 						end
 					end
 				end
