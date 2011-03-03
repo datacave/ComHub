@@ -59,7 +59,14 @@ class Notification < ActiveRecord::Base
 			# ignored by the contact, which is a change from sending on anything
 			# that has no keywords. Which is probably fine, since everything in
 			# our system should be keyworded now.
-			keywords.select! { |k| Keyword.find_by_designation(k).in_play? }
+			keywords = keywords.select { |k| Keyword.find_by_designation(k).in_play? }
+			logger = Logger.new(STDERR)
+      logger.info(keywords)
+      logger.info(contact.enabled?)
+      logger.info(contact.on_call?)
+      logger.info(contact.subscribed?(keywords))
+      logger.info(contact.filtering?(message.body))
+      logger.info(message.important?)
 			if contact.enabled? && contact.on_call? && 
 				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
         message.important?
