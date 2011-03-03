@@ -54,21 +54,19 @@ class Notification < ActiveRecord::Base
   def self.apportion(message, contacts)
 		code = Notification.generate_code
 		contacts.each do |contact|
-      keywords = 
+      keywords = message.keywords.split(/, ?/)
 			# Gotta be a better way than this. Now relying on nil keywords being
 			# ignored by the contact, which is a change from sending on anything
 			# that has no keywords. Which is probably fine, since everything in
 			# our system should be keyworded now.
-			keywords = message.keywords.split(/, ?/).select { |k|
-				Keyword.find_by_designation(k).in_play? }
-			logger.info("*****************************")
-			logger.info("Contact: #{contact.inspect}")
-      logger.info("Keywords: #{keywords}")
-      logger.info("Contact enabled?: #{contact.enabled?}")
-      logger.info("Contact on_call?: #{contact.on_call?}")
-      logger.info("Contact subscribed?: #{contact.subscribed?(keywords)}")
-      logger.info("Contact filtering?: #{contact.filtering?(message.body)}")
-      logger.info("Message important?: #{message.important?}")
+			keywords = keywords.select { |k| Keyword.find_by_designation(k).in_play? }
+			logger = Logger.new(STDERR)
+      logger.info(keywords)
+      logger.info(contact.enabled?)
+      logger.info(contact.on_call?)
+      logger.info(contact.subscribed?(keywords))
+      logger.info(contact.filtering?(message.body))
+      logger.info(message.important?)
 			if contact.enabled? && contact.on_call? && 
 				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
         message.important?
