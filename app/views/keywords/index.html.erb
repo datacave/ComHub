@@ -1,12 +1,13 @@
 <h1>Listing keywords</h1>
 
 <table>
-  <tr><th>Designation<th>Options
+	<tr><th>Designation<th>Time Window<th>Options
   </tr>
 
 <% @keywords.each do |keyword| %>
   <tr>
     <td><%= link_to keyword.designation, keyword %>
+		<td><%= keyword.time_window.description unless keyword.time_window.nil? %>
     <td><%= link_to 'Edit', edit_keyword_path(keyword) %> |
     <%= link_to 'Destroy', keyword, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

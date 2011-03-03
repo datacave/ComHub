@@ -3,6 +3,7 @@
 <table>
   <tr><th>Designation<td><%= @keyword.designation %></tr>
   <tr><th>Parent<td><%= @keyword.parent.designation unless @keyword.parent.nil? %></tr>
+  <tr><th>Time Window<td><%= @keyword.time_window.description unless @keyword.time_window.nil? %></tr>
 </table>
 
 <p class="navigation">

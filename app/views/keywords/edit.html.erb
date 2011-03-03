@@ -6,6 +6,8 @@
     <tr><th><%= f.label :designation %><td><%= f.text_field :designation %></tr>
     <tr><th><%= f.label :parent %><td><%= f.collection_select :parent_id,
       Keyword.all, :id, :designation %></tr>
+		<tr><th><%= f.label :time_window %><td><%= f.collection_select :time_window_id,
+			TimeWindow.all, :id, :description, :include_blank => true %></tr>
   </table>
   
   <p>

@@ -4,7 +4,9 @@
   <%= f.error_messages %>
   <table>
     <tr><th><%= f.label :designation %><td><%= f.text_field :designation %></tr>
-    <tr><th><%= f.label :parent %><td><%= collection_select "parent", "id", Keyword.all,
+    <tr><th><%= f.label :parent %><td><%= f.collection_select :parent_id, Keyword.all,
+    :id, :designation, { :include_blank => true } %>
+    <tr><th><%= f.label :time_window %><td><%= collection_select :time_window_id, Keyword.all,
     :id, :designation, { :include_blank => true } %>
   </table>
   

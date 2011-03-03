@@ -55,6 +55,11 @@ class Notification < ActiveRecord::Base
 		code = Notification.generate_code
 		contacts.each do |contact|
       keywords = message.keywords.split(/, ?/)
+			# Gotta be a better way than this. Now relying on nil keywords being
+			# ignored by the contact, which is a change from sending on anything
+			# that has no keywords. Which is probably fine, since everything in
+			# our system should be keyworded now.
+			keywords.select! { |k| Keyword.find_by_designation(k).in_play? }
 			if contact.enabled? && contact.on_call? && 
 				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
         message.important?

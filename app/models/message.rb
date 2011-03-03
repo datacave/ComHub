@@ -61,24 +61,27 @@ class Message < ActiveRecord::Base
 
 		# Message throttle
 		unless body.match(/^RECOVERY/)
-			m = Message.find(:all, :order => "created_at DESC", :limit => 3)[2]
+			m = Message.find(:all, :order => "created_at DESC", :limit => 5)[4]
 			m ? t = m.created_at : t = Time.now - 1.day
 			freshness = Time.now - t
 			if freshness < 30 # seconds
         # FIXME: Explanation of the order of events?...
         self.throttle! unless body.match(/throttled!$/)
-        # Don't send another message about throttling for 30 minutes
+        # Don't send another message about throttling for 30 seconds
+				# FIXME: Need to convert this time to UTC to match the Rails-
+				# generated timestamps.
         m = Message.find(:last, :conditions =>
-          "subject = 'Messages are being throttled!' AND
+          "body = 'Messages are being throttled!' AND
           created_at >= '#{(DateTime.now - 30.seconds).to_s(:db)}'")
-        if m.nil?
+        if m.nil? && !body.match(/throttled!$/)
           Message.create(
             :sender => "comhub@data-cave.com",
             :body => "Messages are being throttled!",
             :subject => "There may be more problems coming in than are being reported!",
             :recipients_direct => recipients_direct,
             :stamp => DateTime.now,
-            :keywords => keywords
+            :keywords => keywords,
+						:state => "throttled"
           )
         end
         #message = "Messages are being throttled."
@@ -119,7 +122,9 @@ class Message < ActiveRecord::Base
 				ensure
 					# Check if notifications have not come to rest at the "delivered" state.
 					if notifications.count == 0 && self.important?
-						Message.admin_override("ALERT! Message #{id} did not generate any notifications!")
+						message = "Notifications for message #{id} did not go through!"
+						logger.error("Message was: #{message}")
+						#Message.admin_override(message)
 					else
 						failures = notifications.select { |n| n.state != 'delivered' }
 						if failures.count > 0

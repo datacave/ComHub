@@ -15,6 +15,7 @@
 class Keyword < ActiveRecord::Base
 	has_many :subscriptions
 	has_many :contacts, :through => :subscriptions
+	belongs_to :time_window
 	#acts_as_tree :order => "designation"
 	acts_as_nested_set
 	
@@ -24,5 +25,11 @@ class Keyword < ActiveRecord::Base
 
   validates_uniqueness_of :designation
   
+	def in_play?
+		return true if time_window.nil? ||
+			TimeRange.new(time_window.definition).include?(Time.new)
+		false
+	end
+
 end
 

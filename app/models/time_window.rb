@@ -15,4 +15,5 @@ class TimeWindow < ActiveRecord::Base
   has_many :schedules
   has_many :contacts, :through => :schedules
 	has_many :channels
+	has_many :keywords
 end

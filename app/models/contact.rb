@@ -107,7 +107,7 @@ class Contact < ActiveRecord::Base
 	end
 
 	def subscribed?(text)
-		if text.nil? || keywords.include?(Keyword.find_by_designation('Everything')) ||
+		if keywords.include?(Keyword.find_by_designation('Everything')) ||
 			!(keywords.map { |k| k.designation } & text).empty?
 			true
 		else

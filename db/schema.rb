@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110124192323) do
+ActiveRecord::Schema.define(:version => 20110303172023) do
 
   create_table "acknowledgments", :force => true do |t|
     t.datetime "created_at"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20110124192323) do
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "parent_id"
+    t.integer  "time_window_id"
   end
 
   create_table "mechanisms", :force => true do |t|
