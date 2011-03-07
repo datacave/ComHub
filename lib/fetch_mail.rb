@@ -33,39 +33,51 @@ imap.select('INBOX')
 
 #p imap.responses["EXISTS"][-1]
 imap.search(["NOT", "SEEN"]).each do |message|
-	e = imap.fetch(message, "ENVELOPE")[0].attr["ENVELOPE"]
-	#p e.inspect
-	from_address = e.from[0].mailbox
-	from_host = e.from[0].host
-	to_address = e.to[0].mailbox
-	to_host = e.to[0].host
-	subject = e.subject
+	envelope = imap.fetch(message, "ENVELOPE")[0].attr["ENVELOPE"]
+	#p envelope.inspect
+	from_address = envelope.from[0].mailbox
+	from_host = envelope.from[0].host
+	to_address = envelope.to[0].mailbox
+	to_host = envelope.to[0].host
+	subject = envelope.subject
+	body = imap.fetch(message, "BODY[TEXT]")[0].attr["BODY[TEXT]"]
 	if subject == "Alarm from Intelli-M Access"
-		body = imap.fetch(message, "BODY[TEXT]")[0].attr["BODY[TEXT]"]
-		# The raw body sent from Intelli-M looks like this:
+		# The raw body of a door alarm sent from Intelli-M looks like this:
 		#"\"<b>Date:</b> 3/3/2011 9:51:40 AM</br><b>User:</b> (-)</br><b>Event:</b>=\\r\\n ForcedOpen</br><b>Location:</b> Door: 106-Office_Area-NOC and Zone:\\r\\n\\r\\n\""
-		body.gsub!(/\r\n/, '')
-		body.gsub!(/<\/br>/, '|')
-		body.gsub!(/<\/?[^>]*>/, '')
-		door = event = ""
-		body.split('|').each do |line|
-			door = line.split('Door: ')[1] if line.match(/^Location/)
-			event = line.split('Event:= ')[1] if line.match(/^Event/)
+		if body.match(/.*ForcedOpen.*/)
+			body.gsub!(/\r\n/, '')
+			body.gsub!(/<\/br>/, '|')
+			body.gsub!(/<\/?[^>]*>/, '')
+			door = event = ""
+			body.split('|').each do |line|
+				door = line.split('Door: ')[1] if line.match(/^Location/)
+				event = line.split('Event:= ')[1] if line.match(/^Event/)
+			end
+			door.gsub!(/and Zone:/, '')
+			subject = "Door #{door} #{event}"
+			Message.create(:uid => envelope.message_id,
+				:sender => "#{from_address}@#{from_host}",
+				#:recipients_direct => "#{envelope.to[0].mailbox}@#{envelope.to[0].host}",
+				#:recipients_indirect => "#{envelope.cc[0].mailbox}@#{envelope.cc[0].host}",
+				:recipients_direct => 'everybody',
+				:stamp => DateTime.parse(envelope.date),
+				:subject => subject,
+				:body => subject,
+				:keywords => 'Security')
+			#imap.store(message, "-FLAGS", [:Seen])
 		end
-		door.gsub!(/and Zone:/, '')
-		subject = "Door #{door} #{event}"
-		Message.create(:uid => e.message_id,
+	else
+		Message.create(:uid => envelope.message_id,
 			:sender => "#{from_address}@#{from_host}",
-			#:recipients_direct => "#{e.to[0].mailbox}@#{e.to[0].host}",
-			#:recipients_indirect => "#{e.cc[0].mailbox}@#{e.cc[0].host}",
+			#:recipients_direct => "#{envelope.to[0].mailbox}@#{envelope.to[0].host}",
+			#:recipients_indirect => "#{envelope.cc[0].mailbox}@#{envelope.cc[0].host}",
 			:recipients_direct => 'everybody',
-			:stamp => DateTime.parse(e.date),
+			:stamp => DateTime.parse(envelope.date),
 			:subject => subject,
-			:body => subject,
-			:keywords => 'Security')
-		#imap.store(message, "-FLAGS", [:Seen])
-		imap.store(message, "+FLAGS", [:Deleted])
+			:body => body,
+			:keywords => 'Infrastructure')
 	end
+	imap.store(message, "+FLAGS", [:Deleted])
 end
 
 imap.close
