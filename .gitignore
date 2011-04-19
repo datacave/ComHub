@@ -1,5 +1,3 @@
-.project
-nbproject/
 log/
 tmp/
 db/*.sql
