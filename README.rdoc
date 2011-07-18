@@ -32,12 +32,13 @@ script called `inject.rb' that will POST a Message to the app for testing.
 there's the `notify_by_xml.rb' script that I use in Nagios for sending
 Messages to the app in production.
 
+= Recently Done
+* Finish email polling
 
 = ToDo
 
 * Move test scripts (in lib/) to proper tests
 * Make nice with mobile browsers
-* Finish email polling
 * Make acknowledgments respond to the appropriate Nagios instance
 * Implement confirmation of email delivery with read receipt (?)
 * Make Keywords work as a hierarchical thing (editing page will be fun...)
