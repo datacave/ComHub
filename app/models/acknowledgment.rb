@@ -21,7 +21,7 @@ class Acknowledgment < ActiveRecord::Base
 
 	def suppressionate # To keep from monkey-patching "suppress"
 
-    require 'net/http'
+    require 'net/https'
     require 'uri'
     
 #		# Suppress the receiving channel
