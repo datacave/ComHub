@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'net/http'
+require 'net/https'
 require 'uri'
 require 'yaml'
 
@@ -12,6 +12,8 @@ else
 end
 puts url
 http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 data = "<acknowledgment>
 	<Body>Xxx</Body>
   <To>comhub@#{LOCAL['production_domain']}.com</To>
