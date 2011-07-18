@@ -6,9 +6,9 @@ require 'yaml'
 LOCAL = YAML.load_file("../config/local.yml")
 
 if ENV["RAILS_ENV"] == "production"
-	url = URI.parse("http://#{LOCAL['production_server']}/acknowledgments/remote")
+	url = URI.parse("https://#{LOCAL['production_server']}/acknowledgments/remote")
 else
-	url = URI.parse('http://localhost:3000/acknowledgments/remote')
+	url = URI.parse('https://localhost:3000/acknowledgments/remote')
 end
 puts url
 http = Net::HTTP.new(url.host, url.port)
