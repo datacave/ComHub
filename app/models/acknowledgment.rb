@@ -21,7 +21,7 @@ class Acknowledgment < ActiveRecord::Base
 
 	def suppressionate # To keep from monkey-patching "suppress"
 
-    require 'net/http'
+    require 'net/https'
     require 'uri'
     
 #		# Suppress the receiving channel
@@ -73,9 +73,11 @@ class Acknowledgment < ActiveRecord::Base
           url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=33&cmd_mod=2&host=#{host}" +
             "&sticky_ack=on&send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
         end
-        u = URI.parse("http://" + LOCAL['nagios_server'] + url)
+        u = URI.parse("https://" + LOCAL['nagios_server'] + url)
         logger.error(u.inspect)
         http = Net::HTTP.new(u.host, u.port)
+				http.use_ssl = true
+				http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         req = Net::HTTP::Get.new(u.request_uri)
         req.basic_auth(LOCAL['nagios_username'], LOCAL['nagios_password'])
         res = http.request(req)
