@@ -20,7 +20,7 @@ Net::IMAP::add_authenticator('PLAIN', ImapPlainAuthenticator)
 puts Dir.pwd
 SLEEP_TIME = 5
 
-#imap_log = File.new("imap.log", "w")
+imap_log = File.new("imap.log", "w")
 loop {
 	imap = Net::IMAP.new(LOCAL[RAILS_ENV]['server'],
 		LOCAL[RAILS_ENV]['port'],
@@ -32,12 +32,12 @@ loop {
   #p imap.responses["EXISTS"][-1]
 	imap.search(["NOT", "SEEN"]).each do |message|
 		e = imap.fetch(message, "ENVELOPE")[0].attr["ENVELOPE"]
-		puts e
-		puts e.from[0].mailbox
-		p e.from[0].host
-		p e.to[0].mailbox
-		p e.to[0].host
-		p e.subject
+		imap_log.puts e.to_yaml
+		#p e.from[0].mailbox
+		#p e.from[0].host
+		#p e.to[0].mailbox
+		#p e.to[0].host
+		#p e.subject
 		Message.create(:uid => e.message_id,
 			:sender => "#{e.from[0].mailbox}@#{e.from[0].host}",
 			#:recipients_direct => "#{e.to[0].mailbox}@#{e.to[0].host}",
@@ -46,7 +46,7 @@ loop {
 			:stamp => DateTime.parse(e.date), :subject => e.subject,
 			:body => imap.fetch(message, "BODY[TEXT]")[0].attr["BODY[TEXT]"],
 			:keywords => 'Everything')
-		#imap_log.flush
+		imap_log.flush
     #imap.store(message, "+FLAGS", [:Seen])
 		#message.delete
 	end
