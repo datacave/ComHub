@@ -65,17 +65,17 @@ imap.search(["NOT", "SEEN"]).each do |message|
 				:body => subject,
 				:keywords => 'Security')
 			#imap.store(message, "-FLAGS", [:Seen])
+		else
+			Message.create(:uid => envelope.message_id,
+				:sender => "#{from_address}@#{from_host}",
+				#:recipients_direct => "#{envelope.to[0].mailbox}@#{envelope.to[0].host}",
+				#:recipients_indirect => "#{envelope.cc[0].mailbox}@#{envelope.cc[0].host}",
+				:recipients_direct => 'everybody',
+				:stamp => DateTime.parse(envelope.date),
+				:subject => subject,
+				:body => body,
+				:keywords => 'Infrastructure')
 		end
-	else
-		Message.create(:uid => envelope.message_id,
-			:sender => "#{from_address}@#{from_host}",
-			#:recipients_direct => "#{envelope.to[0].mailbox}@#{envelope.to[0].host}",
-			#:recipients_indirect => "#{envelope.cc[0].mailbox}@#{envelope.cc[0].host}",
-			:recipients_direct => 'everybody',
-			:stamp => DateTime.parse(envelope.date),
-			:subject => subject,
-			:body => body,
-			:keywords => 'Infrastructure')
 	end
 	imap.store(message, "+FLAGS", [:Deleted])
 end
