@@ -66,6 +66,7 @@ imap.search(["NOT", "SEEN"]).each do |message|
 				:keywords => 'Security')
 			#imap.store(message, "-FLAGS", [:Seen])
 		else
+			body = CGI::unescapeHTML(body.gsub(/<\/?[^>]*>/,""))
 			Message.create(:uid => envelope.message_id,
 				:sender => "#{from_address}@#{from_host}",
 				#:recipients_direct => "#{envelope.to[0].mailbox}@#{envelope.to[0].host}",
