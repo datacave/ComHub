@@ -75,7 +75,7 @@ imap.search(["NOT", "SEEN"]).each do |message|
 				:stamp => DateTime.parse(envelope.date),
 				:subject => subject,
 				:body => body,
-				:keywords => 'Infrastructure')
+				:keywords => 'Security')
 		end
 	end
 	imap.store(message, "+FLAGS", [:Deleted])
