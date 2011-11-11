@@ -1,11 +1,12 @@
 <h1>Listing notifications</h1>
 
 <table>
-  <tr><th>Recipient<th>Subject<th>Timestamp<th>Keywords<th>State<th>Options
+  <tr><th>Recipient<th>Channel<th>Subject<th>Timestamp<th>Keywords<th>State<th>Options
   </tr>
 
 <% @notifications.each do |notification| %>
   <tr class="<%= cycle('even', 'odd') %>">
+    <td><%= notification.channel.contact.username unless notification.channel.nil? %>
     <td><%= notification.channel.address unless notification.channel.nil? %>
     <td><%= notification.subject %>
     <td><%= notification.created_at.strftime("%c") %>

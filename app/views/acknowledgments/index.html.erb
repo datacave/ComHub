@@ -6,7 +6,7 @@
 
 <% @acknowledgments.each do |acknowledgment| %>
   <tr class="<%= cycle('even', 'odd') %>">
-    <td><%= acknowledgment.from %>
+    <td><%= Channel.find_by_address(acknowledgment.from).contact.username %>
     <td><%= acknowledgment.body %>
     <td><%= acknowledgment.status %>
     <td><%= acknowledgment.created_at %>
