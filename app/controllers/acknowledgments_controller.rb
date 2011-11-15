@@ -99,10 +99,10 @@ class AcknowledgmentsController < ApplicationController
     respond_to do |format|
       if @ack.save
         flash[:notice] = 'Acknowledgment was successfully created.'
-        format.html { redirect_to(@ack) }
+        format.html { render "Affirmative." }
         format.xml  { render :xml => @ack, :status => :created, :location => @ack }
       else
-        format.html { render :action => "new" }
+        format.html { render "Negative!" }
         format.xml  { render :xml => @ack.errors, :status => :unprocessable_entity }
       end
     end
