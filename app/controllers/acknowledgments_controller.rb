@@ -96,13 +96,11 @@ class AcknowledgmentsController < ApplicationController
 		temp.store(:uid, params[:SmsSid])
     @ack = Acknowledgment.new(temp)
 
-    respond_to do |format|
-      if @ack.save
-        render :xml => @ack, :status => :created, :location => @ack
-      else
-        render :xml => @ack.errors, :status => :unprocessable_entity 
-      end
-    end
+		if @ack.save
+			render :xml => @ack, :status => :created, :location => @ack
+		else
+			render :xml => @ack.errors, :status => :unprocessable_entity 
+		end
   end
 
 end
