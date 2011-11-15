@@ -66,7 +66,7 @@ class Acknowledgment < ActiveRecord::Base
           service = m[1]
           host = m[2]
           url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=34&cmd_mod=2&host=" +
-            "#{host}&service=#{URI.parse(service)}&sticky_ack=on&" +
+            "#{host}&service=#{service.gsub(/ /, "%20")}&sticky_ack=on&" +
             "send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
         elsif m = notification.body.match(/PROBLEM: (\w+) \(/)
           host = m[1]
