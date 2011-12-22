@@ -19,7 +19,7 @@ class Acknowledgment < ActiveRecord::Base
 
 	after_create :suppressionate
 
-	def suppressionate # To keep from monkey-patching "suppress"
+	def suppressionate # Named wierdly to keep from monkey-patching "suppress"
 
     require 'net/https'
     require 'uri'
@@ -37,7 +37,12 @@ class Acknowledgment < ActiveRecord::Base
 
     begin
       # Suppress these kinds of messages
-      code = body.strip
+			text = body.strip
+      code = text[0..2]
+			with_prejudice = false
+			if text.length > 3 && text[3] == "!"
+				with_prejudice = true
+			end
       c = Channel.find_by_address(from)
       # Probably ought to be a time limit on this.
       n = Notification.find_last_by_channel_id_and_code(c.id, code)
@@ -56,22 +61,69 @@ class Acknowledgment < ActiveRecord::Base
         #  34 service ack
         #  51 removes host ack
         #  52 removes service ack
+				#  55 schedules downtime for host
+				#  56 schedules downtime for service
         #
         #  wget -O - --http-user=username --http-password=password --post-data
         #   'cmd_typ=34&cmd_mod=2&host=server_xyz&service=SSH&sticky_ack=on&
-        #   send_notification=on&com_data=asdf&btnSubmit=Commit#'
+        #   send_notification=on&com_data=asdf&btnSubmit=Commit'
         #   http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
+				#
+				#  wget -O - --no-check-certificate --http-user=username --http-password=password
+				#   --post-data 'cmd_typ=55&cmd_mod=2&host=server_xyz&
+				#   com_author=ComHub&com_data=ComHub%20was%20here&
+				#   start_time=2011-12-21%2009%3A50%3A00&
+				#   end_time=2011-12-21%2011%3A50%3A00&
+				#   fixed=0&hours=4&minutes=15&btnSubmit=Commit'
+				#   http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
 
         if m = notification.body.match(/PROBLEM: (.*) on (\S+) \(/)
           service = m[1]
           host = m[2]
-          url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=34&cmd_mod=2&host=" +
-            "#{host}&service=#{service.gsub(/ /, "%20")}&sticky_ack=on&" +
-            "send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
+					if with_prejudice
+						t = Time.now; hr = t.hour
+						if hr < 17 && hr > 1
+						 	blackout = 6
+						else
+							if hr > 8
+							 	blackout = 24 - hr + 8
+							else
+								blackout = 8 - hr
+							end
+						end
+						url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=56&cmd_mod=2&host=#{host}&" +
+							"service=#{service.gsub(/ /, "%20")}&" +
+							"com_author=ComHub&com_data=Comhub%20was%20here&" +
+							"start_time=" + URI.escape(t.to_s(:db)) + "&" +
+							"end_time=" + URI.escape((t + 2.hours).to_s(:db)) + "&" +
+							"fixed=0&hours=" + blackout + "&minutes=0&btnSubmit=Commit"
+					else
+						url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=34&cmd_mod=2&host=" +
+							"#{host}&service=#{service.gsub(/ /, "%20")}&sticky_ack=on&" +
+							"send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
+					end
         elsif m = notification.body.match(/PROBLEM: (\w+) \(/)
           host = m[1]
-          url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=33&cmd_mod=2&host=#{host}" +
-            "&sticky_ack=on&send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
+					if with_prejudice
+						t = Time.now; hr = t.hour
+						if hr < 17 && hr > 1
+						 	blackout = 6
+						else
+							if hr > 8
+							 	blackout = 24 - hr + 8
+							else
+								blackout = 8 - hr
+							end
+						end
+						url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=55&cmd_mod=2&host=#{host}&" +
+							"com_author=ComHub&com_data=Comhub%20was%20here&" +
+							"start_time=" + URI.escape(t.to_s(:db)) + "&" +
+							"end_time=" + URI.escape((t + 2.hours).to_s(:db)) + "&" +
+							"fixed=0&hours=" + blackout + "&minutes=0&btnSubmit=Commit"
+					else
+						url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=33&cmd_mod=2&host=#{host}" +
+							"&sticky_ack=on&send_notification=on&com_data=Comhub%20was%20here&btnSubmit=Commit"
+					end
         end
         u = URI.parse("https://" + LOCAL['nagios_server'] + url)
         logger.error(u.inspect)

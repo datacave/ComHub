@@ -6,10 +6,10 @@
 
 <% @acknowledgments.each do |acknowledgment| %>
   <tr class="<%= cycle('even', 'odd') %>">
-    <td><%= Channel.find_by_address(acknowledgment.from).contact.username %>
+    <td><%= Channel.find_by_address(acknowledgment.from).contact.username unless acknowledgment.from.nil? %>
     <td><%= acknowledgment.body %>
     <td><%= acknowledgment.status %>
-    <td><%= acknowledgment.created_at %>
+    <td><%= acknowledgment.created_at.strftime("%c") %>
     <td><%= link_to acknowledgment.notification.id, 
       notification_path(acknowledgment.notification.id) unless acknowledgment.notification.nil? %>
     <td><%= link_to 'Show', acknowledgment %> |

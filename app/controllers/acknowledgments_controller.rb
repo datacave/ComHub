@@ -88,6 +88,8 @@ class AcknowledgmentsController < ApplicationController
   end
 
   def remote
+		logger = Logger.new(STDERR)
+		logger.info(params)
 		temp = {}
 		temp.store(:body, params[:Body])
 		temp.store(:to, params[:To])
