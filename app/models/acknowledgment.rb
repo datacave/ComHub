@@ -3,15 +3,15 @@
 #
 # Table name: acknowledgments
 #
-#  id              :integer(4)      not null, primary key
-#  created_at      :datetime
-#  updated_at      :datetime
-#  body            :string(255)
-#  uid             :string(255)
-#  to              :string(255)
-#  status          :string(255)
-#  from            :string(255)
-#  notification_id :integer(4)
+#	id							:integer(4)			not null, primary key
+#	created_at			:datetime
+#	updated_at			:datetime
+#	body						:string(255)
+#	uid						 :string(255)
+#	to							:string(255)
+#	status					:string(255)
+#	from						:string(255)
+#	notification_id :integer(4)
 #
 
 class Acknowledgment < ActiveRecord::Base
@@ -21,9 +21,9 @@ class Acknowledgment < ActiveRecord::Base
 
 	def suppressionate # Named wierdly to keep from monkey-patching "suppress"
 
-    require 'net/https'
-    require 'uri'
-    
+		require 'net/https'
+		require 'uri'
+		
 #		# Suppress the receiving channel
 #		@channel = Channel.find_by_address(params[:From])
 #		unless @channel.nil?
@@ -35,11 +35,11 @@ class Acknowledgment < ActiveRecord::Base
 #			logger.error("Channel #{params[:To]} was not found!")
 #		end
 
-    begin
+		begin
 
 			logger.error("Suppressing...")
 			text = body.strip
-      code = text[0..2]
+			code = text[0..2]
 			
 			if m = /^Op[0-9]$/.match(code)
 				url = "/open" + m[1]
@@ -82,31 +82,31 @@ class Acknowledgment < ActiveRecord::Base
 					# Need to send an ack to the Nagios server, which will in turn send out another
 					# notification that the problem has been ack'd. Will this get throttled?...
 					#
-					#  cmd_typ=
-					#  22 service notifications on
-					#  23 service notifications off
-					#  24 host notifications on
-					#  25 host notifications off
-					#  29 ALL service notifications off (with option on host)
-					#  33 host ack
-					#  34 service ack
-					#  51 removes host ack
-					#  52 removes service ack
-					#  55 schedules downtime for host
-					#  56 schedules downtime for service
+					#	cmd_typ=
+					#	22 service notifications on
+					#	23 service notifications off
+					#	24 host notifications on
+					#	25 host notifications off
+					#	29 ALL service notifications off (with option on host)
+					#	33 host ack
+					#	34 service ack
+					#	51 removes host ack
+					#	52 removes service ack
+					#	55 schedules downtime for host
+					#	56 schedules downtime for service
 					#
-					#  wget -O - --http-user=username --http-password=password --post-data
-					#   'cmd_typ=34&cmd_mod=2&host=server_xyz&service=SSH&sticky_ack=on&
-					#   send_notification=on&com_data=asdf&btnSubmit=Commit'
-					#   http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
+					#	wget -O - --http-user=username --http-password=password --post-data
+					#	 'cmd_typ=34&cmd_mod=2&host=server_xyz&service=SSH&sticky_ack=on&
+					#	 send_notification=on&com_data=asdf&btnSubmit=Commit'
+					#	 http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
 					#
-					#  wget -O - --no-check-certificate --http-user=username --http-password=password
-					#   --post-data 'cmd_typ=55&cmd_mod=2&host=server_xyz&
-					#   com_author=ComHub&com_data=ComHub%20was%20here&
-					#   start_time=2011-12-21%2009%3A50%3A00&
-					#   end_time=2011-12-21%2011%3A50%3A00&
-					#   fixed=0&hours=4&minutes=15&btnSubmit=Commit'
-					#   http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
+					#	wget -O - --no-check-certificate --http-user=username --http-password=password
+					#	 --post-data 'cmd_typ=55&cmd_mod=2&host=server_xyz&
+					#	 com_author=ComHub&com_data=ComHub%20was%20here&
+					#	 start_time=2011-12-21%2009%3A50%3A00&
+					#	 end_time=2011-12-21%2011%3A50%3A00&
+					#	 fixed=0&hours=4&minutes=15&btnSubmit=Commit'
+					#	 http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
 
 					if m = notification.body.match(/PROBLEM: (.*) on (\S+) \(/)
 						service = m[1]
@@ -157,10 +157,9 @@ class Acknowledgment < ActiveRecord::Base
 				else
 					logger.error("Couldn't find notification with code #{code} to suppress!")
 				end
-			rescue Exception => e
-				logger.error("Error: #{$!} -- " + e.inspect)
 			end
-
+		rescue Exception => e
+			logger.error("Error: #{$!} -- " + e.inspect)
 		end
 
 	end
