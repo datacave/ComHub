@@ -57,7 +57,7 @@ class Acknowledgment < ActiveRecord::Base
 				hr = t.hour
 				blackout = 6
 				if text.length > 3
-					if text[3] == 33 # `!' in ASCII. I don't know why we're dealing with codes.
+					if text[3] == 33 # `!' in ASCII. I don't know why this evals to a code.
 						logger.error("... with service.")
 						with_service = true
 						if hr > 17 && hr < 1
