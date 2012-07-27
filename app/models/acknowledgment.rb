@@ -23,7 +23,7 @@ class Acknowledgment < ActiveRecord::Base
 
 		require 'net/https'
 		require 'uri'
-		
+
 #		# Suppress the receiving channel
 #		@channel = Channel.find_by_address(params[:From])
 #		unless @channel.nil?
@@ -40,7 +40,7 @@ class Acknowledgment < ActiveRecord::Base
 			logger.error("Suppressing...")
 			text = body.strip
 			code = text[0..2]
-			
+
 			if m = code.match(/^Op([0-9])$/)
 				url = "/open" + m[1]
 				u = URI.parse("http://" + LOCAL['arduino_server'] + url)

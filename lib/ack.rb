@@ -18,7 +18,12 @@ else
 	http.use_ssl = false
 end
 http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-data = "Body=Op1&To=#{LOCAL['twilio_number']}&From=#{LOCAL['testing_phone']}&SmsStatus=received&SmsSid=asdf&SmsMessageSid=qwer&AccountSid=AC6524b76ade95cfec0c693cc0c53b7176&ApiVersion=2008-08-01&FromCity=COLUMBUS&FromState=IN&FromZip=47203&FromCountry=US&ToCity=MCCUTCHANVILLE&ToState=IN&ToZip=47711&ToCountry=US"
+data = "Body=ACKNOWLEDGEMENT&To=#{LOCAL['twilio_number2']}&From=#{LOCAL['testing_phone']}&" +
+	"SmsStatus=received&SmsSid=asdf&SmsMessageSid=qwer&" +
+	"AccountSid=AC6524b76ade95cfec0c693cc0c53b7176&" +
+	"ApiVersion=2008-08-01&FromCity=COLUMBUS&FromState=IN&" +
+	"FromZip=47203&FromCountry=US&ToCity=MCCUTCHANVILLE&" +
+	"ToState=IN&ToZip=47711&ToCountry=US"
 res = http.start do |con|
 	con.post(url.path, data)
 end

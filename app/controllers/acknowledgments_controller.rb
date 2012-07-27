@@ -101,7 +101,7 @@ class AcknowledgmentsController < ApplicationController
 		if @ack.save
 			render :xml => @ack, :status => :created, :location => @ack
 		else
-			render :xml => @ack.errors, :status => :unprocessable_entity 
+			render :xml => @ack.errors, :status => :unprocessable_entity
 		end
   end
 

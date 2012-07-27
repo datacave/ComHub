@@ -33,12 +33,12 @@ module Twilio
   require 'builder'
   require 'openssl'
   require 'base64'
-    
+
   TWILIO_API_URL = 'https://api.twilio.com'
-  
+
   # Twilio REST Helpers
   class RestAccount
-      
+
     #initialize a twilio account object
     #
     #@param [String, String] Your Twilio Acount SID/ID and Auth Token
@@ -47,10 +47,10 @@ module Twilio
       @id = id
       @token = token
     end
-    
+
     #sends a request and gets a response from the Twilio REST API
     #
-    #@param [String, String, Hash] 
+    #@param [String, String, Hash]
     #path, the URL (relative to the endpoint URL, after the /v1
     #method, the HTTP method to use, defaults to POST
     #vars, for POST or PUT, a dict of data to send
@@ -65,29 +65,29 @@ module Twilio
         if method && !['GET', 'POST', 'DELETE', 'PUT'].include?(method)
           raise NotImplementedError, 'HTTP %s not implemented' % method
         end
-    
+
         if path[0, 1] == '/'
           uri = TWILIO_API_URL + path
         else
           uri = TWILIO_API_URL + '/' + path
       end
-        
+
       return fetch(uri, vars, method)
     end
-    
+
     #enocde the parameters into a URL friendly string
     #
-    #@param [Hash] URL key / values        
+    #@param [Hash] URL key / values
     #@return [String] Encoded URL
     protected
     def urlencode(params)
       params.to_a.collect! \
         { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join("&")
     end
-    
+
     # Create the uri for the REST call
     #
-    #@param [String, Hash] Base URL and URL parameters        
+    #@param [String, Hash] Base URL and URL parameters
     #@return [String] URI for the REST call
     def build_get_uri(uri, params)
       if params && params.length > 0
@@ -102,20 +102,20 @@ module Twilio
       end
       return uri
     end
-    
+
     # Returns a http request for the given url and parameters
     #
-    #@param [String, Hash, String] Base URL, URL parameters, optional METHOD        
+    #@param [String, Hash, String] Base URL, URL parameters, optional METHOD
     #@return [String] URI for the REST call
     def fetch(url, params, method=nil)
       if method && method == 'GET'
         url = build_get_uri(url, params)
       end
       uri = URI.parse(url)
-      
+
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
-      
+
       if method && method == 'GET'
         req = Net::HTTP::Get.new(uri.request_uri)
       elsif method && method == 'DELETE'
@@ -128,11 +128,11 @@ module Twilio
         req.set_form_data(params)
       end
       req.basic_auth(@id, @token)
-      
+
       return http.request(req)
     end
   end
-  
+
   # Twiml Response Helpers
   module Verb
     module ClassMethods
@@ -169,7 +169,7 @@ module Twilio
     def allowed?(verb)
       self.class.allowed_verbs.nil? ? false : self.class.allowed_verbs.include?(verb.class.name.split('::')[1])
     end
-       
+
     #initialize a twilio response object
       #
       #@param [String, Hash] Body of the verb, and a hash of the attributes
@@ -194,21 +194,21 @@ module Twilio
     end
 
     #set an attribute key / value
-      #no error checking 
+      #no error checking
       #
       #@param [Hash] Hash of options
-      #@return void      
+      #@return void
     def set(params = {})
       params.each do |k,v|
         self.class.attributes k.to_s
         send(k.to_s+"=",v)
-      end     
+      end
     end
 
     #output valid Twilio markup
       #
       #@param [Hash] Hash of options
-      #@return [String] Twilio Markup (in XML)  
+      #@return [String] Twilio Markup (in XML)
     def respond(opts = {})
       opts[:builder]  ||= Builder::XmlMarkup.new(:indent => opts[:indent])
       b = opts[:builder]
@@ -225,7 +225,7 @@ module Twilio
         raise ArgumentError, "Cannot have children and a body at the same time"
       end
     end
-    
+
     #output valid Twilio markup encoded for inclusion in a URL
       #
       #@param []
@@ -233,16 +233,16 @@ module Twilio
     def asURL()
       CGI::escape(self.respond)
     end
-    
+
     def append(verb)
       if(allowed?(verb))
         @children << verb
         @children[-1]
       else
         raise ArgumentError, "Verb Not Supported"
-      end    
+      end
     end
-    
+
     # Verb Convenience Methods
     def addSay(string_to_say = nil, opts = {})
       append Twilio::Say.new(string_to_say, opts)
@@ -273,17 +273,17 @@ module Twilio
     end
 
     def addHangup
-      append Twilio::Hangup.new 
+      append Twilio::Hangup.new
     end
 
     def addNumber(number, opts = {})
       append Twilio::Number.new(number, opts)
     end
-    
+
     def addConference(room, opts = {})
       append Twilio::Conference.new(room, opts)
     end
-    
+
     def addSms(msg, opts = {})
       append Twilio::Sms.new(msg, opts)
     end
@@ -344,13 +344,13 @@ module Twilio
     include Twilio::Verb
     attributes :sendDigits, :url
   end
-  
+
   class Conference
     extend Twilio::Verb::ClassMethods
     include Twilio::Verb
     attributes :muted, :beep, :startConferenceOnEnter, :endConferenceOnExit, :waitUrl, :waitMethod
   end
-  
+
   class Sms
     extend Twilio::Verb::ClassMethods
     include Twilio::Verb
@@ -362,7 +362,7 @@ module Twilio
     include Twilio::Verb
     allowed_verbs :say, :play, :gather, :record, :dial, :redirect, :pause, :hangup, :sms
   end
-  
+
   # Twilio Utility function and Request Validation class
   class Utils
 
@@ -374,8 +374,8 @@ module Twilio
       @id = id
       @token = token
     end
-  
-    def validateRequest(signature, url, params = {})  
+
+    def validateRequest(signature, url, params = {})
       sorted_post_params = params.sort
       data = url
       sorted_post_params.each do |pkey|
@@ -386,5 +386,5 @@ module Twilio
       return expected == signature
     end
   end
-  
+
 end

@@ -69,7 +69,7 @@ class Notification < ActiveRecord::Base
       logger.info("Contact subscribed?: #{contact.subscribed?(keywords)}")
       logger.info("Contact filtering?: #{contact.filtering?(message.body)}")
       logger.info("Message important?: #{message.important?}")
-			if contact.enabled? && contact.on_call? && 
+			if contact.enabled? && contact.on_call? &&
 				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
         message.important?
 				contact.channels.active.each do |channel|
@@ -139,9 +139,14 @@ class Notification < ActiveRecord::Base
 		api_version = LOCAL['twilio_version']
 		account_sid = LOCAL['twilio_sid']
 		account_token = LOCAL['twilio_token']
+		if (body.match(/^ACKNOWLEDGEMENT/))
+			number = LOCAL['twilio_number2']
+		else
+			number = LOCAL['twilio_number']
+		end
 		account = Twilio::RestAccount.new(account_sid, account_token)
 		data = {
-			'From' => LOCAL['twilio_number'],
+			'From' => number,
 			'To' => channel.address,
 			'Body' => body,
 			'StatusCallback' => LOCAL['return_url']
