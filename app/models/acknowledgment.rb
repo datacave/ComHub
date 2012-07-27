@@ -41,7 +41,7 @@ class Acknowledgment < ActiveRecord::Base
 			text = body.strip
 			code = text[0..2]
 
-			sender = Channel.find_by_address(acknowledgment.from).contact.username unless
+			sender = Channel.find_by_address(from).contact.username unless
 				acknowledgment.from.nil?
 
 			if m = code.match(/^Op([0-9])$/)
