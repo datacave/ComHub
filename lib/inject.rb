@@ -14,7 +14,7 @@ puts url
 http = Net::HTTP.new(url.host, url.port)
 data = "<message>
 	<importance></importance>
-	<body>ACKNOWLEDGEMENT: SSH is normal</body>
+	<body>ACKNOWLEDGEMENT: SSH on server_server (10.1.1.1) is CRITICAL!\nConnection refused</body>
 	<sender>#{LOCAL['testing_email']}</sender>
 	<uid></uid>
 	<subject>PROBLEM for SSH</subject>

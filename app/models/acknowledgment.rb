@@ -41,6 +41,9 @@ class Acknowledgment < ActiveRecord::Base
 			text = body.strip
 			code = text[0..2]
 
+			sender = Channel.find_by_address(acknowledgment.from).contact.username unless
+				acknowledgment.from.nil?
+
 			if m = code.match(/^Op([0-9])$/)
 				url = "/open" + m[1]
 				u = URI.parse("http://" + LOCAL['arduino_server'] + url)
@@ -125,7 +128,7 @@ class Acknowledgment < ActiveRecord::Base
 							url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=34&cmd_mod=2&host=" +
 								"#{host}&service=#{service.gsub(/ /, "%20")}&sticky_ack=on&" +
 								"send_notification=on&com_author=ComHub&" +
-								"com_data=Comhub%20was%20here&btnSubmit=Commit"
+								"com_data=#{sender}&btnSubmit=Commit"
 						end
 					elsif m = notification.body.match(/PROBLEM: (\w+) \(/)
 						host = m[1]
@@ -141,7 +144,7 @@ class Acknowledgment < ActiveRecord::Base
 						else
 							url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=33&cmd_mod=2&host=#{host}" +
 								"&sticky_ack=on&send_notification=on&com_author=ComHub&" +
-								"com_data=Comhub%20was%20here&btnSubmit=Commit"
+								"com_data=#{sender}&btnSubmit=Commit"
 						end
 					end
 					u = URI.parse("https://" + LOCAL['nagios_server'] + url)
