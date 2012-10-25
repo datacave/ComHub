@@ -86,7 +86,7 @@ class NotificationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-	
+
 	def confirm
 		# Parameters: {"AccountSid"=>"AC6524b76ade95cfec0c693cc0c53b7176",
 		# "From"=>"+18122141761", "SmsStatus"=>"sent", "To"=>"+18123500093",

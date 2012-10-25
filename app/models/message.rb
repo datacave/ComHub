@@ -84,13 +84,11 @@ class Message < ActiveRecord::Base
 						:state => "throttled"
           )
         end
-        #message = "Messages are being throttled."
-				#Message.admin_override(message)
 			end
 		end
-	
+
 		unless self.is_being_suppressed? || self.throttled? || recipients_direct.nil?
-		
+
 			contacts = []
 			addresses = recipients_direct.split(/, ?/) #| self.recipients_indirect.split(/, ?/)
 			addresses.each do |address|
@@ -110,7 +108,7 @@ class Message < ActiveRecord::Base
 					end
 				end
 			end
-			
+
 			unless contacts.empty?
 				contacts.uniq!
 				self.address!
@@ -124,14 +122,12 @@ class Message < ActiveRecord::Base
 					if notifications.count == 0 && self.important?
 						message = "Notifications for message #{id} did not go through!"
 						logger.error("Message was: #{message}")
-						#Message.admin_override(message)
 					else
 						failures = notifications.select { |n| n.state != 'delivered' }
 						if failures.count > 0
 							# Should probably create a real message and force it to ignore the normal rules.
 							message = "Notifications for message #{id} did not go through!"
 							logger.error("Message was: #{message}")
-							#Message.admin_override(message)
 						end
 					end
 				end
@@ -154,10 +150,6 @@ class Message < ActiveRecord::Base
 			end
 		end
 		false
-	end
-
-	def self.admin_override(text)
-		system("echo \"#{text}\" | mail #{LOCAL['admin_pager']}")
 	end
 
   def important?

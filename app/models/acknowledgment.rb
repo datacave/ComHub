@@ -42,6 +42,7 @@ class Acknowledgment < ActiveRecord::Base
 			code = text[0..2]
 
 			sender = Channel.find_by_address(from).contact.username unless from.nil?
+			logger.error("Acknowledged by `#{sender}'...")
 
 			if m = code.match(/^Op([0-9])$/)
 				url = "/open" + m[1]
@@ -82,7 +83,7 @@ class Acknowledgment < ActiveRecord::Base
 					notification.acknowledge!
 
 					# Need to send an ack to the Nagios server, which will in turn send out another
-					# notification that the problem has been ack'd. Will this get throttled?...
+					# notification that the problem has been ack'd. Will those get throttled?...
 					#
 					#	cmd_typ=
 					#	22 service notifications on
@@ -99,12 +100,12 @@ class Acknowledgment < ActiveRecord::Base
 					#
 					#	wget -O - --http-user=username --http-password=password --post-data
 					#	 'cmd_typ=34&cmd_mod=2&host=server_xyz&service=SSH&sticky_ack=on&
-					#	 send_notification=on&com_data=asdf&btnSubmit=Commit'
+					#	 send_notification=on&com_data=#{sender}&btnSubmit=Commit'
 					#	 http://nagios.internal.com/nagios3/cgi-bin/cmd.cgi
 					#
 					#	wget -O - --no-check-certificate --http-user=username --http-password=password
 					#	 --post-data 'cmd_typ=55&cmd_mod=2&host=server_xyz&
-					#	 com_author=ComHub&com_data=ComHub%20was%20here&
+					#	 com_author=ComHub&com_data=#{sender}&
 					#	 start_time=2011-12-21%2009%3A50%3A00&
 					#	 end_time=2011-12-21%2011%3A50%3A00&
 					#	 fixed=0&hours=4&minutes=15&btnSubmit=Commit'
@@ -116,7 +117,7 @@ class Acknowledgment < ActiveRecord::Base
 						if with_service
 							url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=56&cmd_mod=2&host=#{host}&" +
 								"service=#{service.gsub(/ /, "%20")}&" +
-								"com_author=ComHub&com_data=Comhub%20was%20here&" +
+								"com_author=ComHub&com_data=#{sender}&" +
 								"start_time=" + URI.escape(t.to_s(:db)) + "&" +
 								"end_time=" + URI.escape((t + 2.hours).to_s(:db)) + "&" +
 								"fixed=0&hours=" + blackout.to_s + "&minutes=0&btnSubmit=Commit"
@@ -133,7 +134,7 @@ class Acknowledgment < ActiveRecord::Base
 						host = m[1]
 						if with_service
 							url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=55&cmd_mod=2&host=#{host}&" +
-								"com_author=ComHub&com_data=Comhub%20was%20here&" +
+								"com_author=ComHub&com_data=#{sender}&" +
 								"start_time=" + URI.escape(t.to_s(:db)) + "&" +
 								"end_time=" + URI.escape((t + 2.hours).to_s(:db)) + "&" +
 								"fixed=0&hours=" + blackout.to_s + "&minutes=0&btnSubmit=Commit"
