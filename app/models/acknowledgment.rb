@@ -130,7 +130,7 @@ class Acknowledgment < ActiveRecord::Base
 								"send_notification=on&com_author=ComHub&" +
 								"com_data=#{sender}&btnSubmit=Commit"
 						end
-					elsif m = notification.body.match(/PROBLEM: (\w+) \(/)
+					elsif m = notification.body.match(/PROBLEM: (\S+) \(/)
 						host = m[1]
 						if with_service
 							url = "/nagios3/cgi-bin/cmd.cgi?cmd_typ=55&cmd_mod=2&host=#{host}&" +
