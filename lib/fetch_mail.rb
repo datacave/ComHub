@@ -6,26 +6,12 @@
 require 'net/imap'
 require 'yaml'
 
-class ImapPlainAuthenticator
-  def process(data)
-    return "#{@user}\0#{@user}\0#{@password}"
-  end
-
-  def initialize(user, password)
-    @user = user
-    @password = password
-  end
-end
-
-Net::IMAP::add_authenticator('PLAIN', ImapPlainAuthenticator)
-
 #Dir.chdir("#{RAILS_ROOT}/lib")
 
 imap = Net::IMAP.new(LOCAL[RAILS_ENV]['server'],
 	LOCAL[RAILS_ENV]['port'],
 	LOCAL[RAILS_ENV]['ssl'])
-imap.authenticate('PLAIN', LOCAL[RAILS_ENV]['username'],
-	LOCAL[RAILS_ENV]['password'])
+imap.login(LOCAL[RAILS_ENV]['username'], LOCAL[RAILS_ENV]['password'])
 
 # For read-only access, if you don't want to delete
 #imap.examine('INBOX')

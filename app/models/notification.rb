@@ -113,7 +113,7 @@ class Notification < ActiveRecord::Base
 	end
 
 	def send_via_smtp
-		smtp = Net::SMTP.start(LOCAL['production']['server'], 25)
+		smtp = Net::SMTP.start(LOCAL['development']['server'], 25)
 		msg = ""
 		msg << "From: ComHub <#{LOCAL['return_address']}>\n"
 		msg << "To: #{channel.address}\n"
