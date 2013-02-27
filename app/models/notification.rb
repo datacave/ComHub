@@ -3,19 +3,19 @@
 #
 # Table name: notifications
 #
-#  id         :integer(4)      not null, primary key
-#  created_at :datetime
-#  updated_at :datetime
-#  sender     :string(255)
-#  subject    :string(255)
-#  body       :text
-#  importance :integer(4)
-#  message_id :integer(4)
-#  keywords   :text
-#  channel_id :integer(4)
-#  state      :string(255)     default("created")
-#  code       :string(255)
-#  uid        :string(255)
+#	id				 :integer(4)			not null, primary key
+#	created_at :datetime
+#	updated_at :datetime
+#	sender		 :string(255)
+#	subject		:string(255)
+#	body			 :text
+#	importance :integer(4)
+#	message_id :integer(4)
+#	keywords	 :text
+#	channel_id :integer(4)
+#	state			:string(255)		 default("created")
+#	code			 :string(255)
+#	uid				:string(255)
 #
 
 class Notification < ActiveRecord::Base
@@ -51,40 +51,40 @@ class Notification < ActiveRecord::Base
 
 	states.each { |s| named_scope s, :conditions => { :state => s.to_s } }
 
-  def self.apportion(message, contacts)
+	def self.apportion(message, contacts)
 		code = Notification.generate_code
 		contacts.each do |contact|
-      keywords = message.keywords.split(/, ?/)
+			keywords = message.keywords.split(/, ?/)
 			# Gotta be a better way than this. Now relying on nil keywords being
 			# ignored by the contact, which is a change from sending on anything
 			# that has no keywords. Which is probably fine, since everything in
 			# our system should be keyworded now.
 			keywords = message.keywords.split(/, ?/).select { |k|
-        Keyword.find_by_designation(k).in_play? }
-      logger.info("*****************************")
-      logger.info("Contact: #{contact.inspect}")
-      logger.info("Keywords: #{keywords}")
-      logger.info("Contact enabled?: #{contact.enabled?}")
-      logger.info("Contact on_call?: #{contact.on_call?}")
-      logger.info("Contact subscribed?: #{contact.subscribed?(keywords)}")
-      logger.info("Contact filtering?: #{contact.filtering?(message.body)}")
-      logger.info("Message important?: #{message.important?}")
+				Keyword.find_by_designation(k).in_play? }
+			logger.info("*****************************")
+			logger.info("Contact: #{contact.inspect}")
+			logger.info("Keywords: #{keywords}")
+			logger.info("Contact enabled?: #{contact.enabled?}")
+			logger.info("Contact on_call?: #{contact.on_call?}")
+			logger.info("Contact subscribed?: #{contact.subscribed?(keywords)}")
+			logger.info("Contact filtering?: #{contact.filtering?(message.body)}")
+			logger.info("Message important?: #{message.important?}")
 			if contact.enabled? && contact.on_call? &&
 				contact.subscribed?(keywords) && !contact.filtering?(message.body) &&
-        message.important?
+				message.important?
 				contact.channels.active.each do |channel|
-          if channel.in_play?
+					if channel.in_play?
 						if channel.mechanism.designation == "sms"
 							# Total length must be <= 160.
 							if message.body.match(/^PROBLEM/) &&
-                  message.sender.match(/nagios/)
+									message.sender.match(/nagios/)
 								text = message.body[0,154] + " (#{code})"
 							else
 								text = message.body[0,160]
 							end
 						else
 							if message.body.match(/^PROBLEM/) &&
-                  message.sender.match(/nagios/)
+									message.sender.match(/nagios/)
 								text = message.body + " (#{code})"
 							else
 								text = message.body
@@ -196,8 +196,8 @@ class Notification < ActiveRecord::Base
 		#alpha2 = ((1 + rand(26)) + 96).chr
 		#alpha3 = ((1 + rand(26)) + 96).chr
 		#"#{alpha1}#{alpha2}#{alpha3}"
-		numeric1 = (1 + rand(9)).chr
-		numeric2 = (1 + rand(9)).chr
+		numeric1 = (1 + rand(9))
+		numeric2 = (1 + rand(9))
 		"#{numeric1}#{numeric2}"
 	end
 
