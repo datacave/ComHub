@@ -39,12 +39,12 @@ class Acknowledgment < ActiveRecord::Base
 
 			logger.error("Suppressing...")
 			text = body.strip
-			code = text[0..2]
+			code = text[0..1]
 
 			sender = Channel.find_by_address(from).contact.username unless from.nil?
 			logger.error("Acknowledged by `#{sender}'...")
 
-			if m = code.match(/^Op([0-9])$/)
+			if m = code.match(/^x([0-9])$/)
 				url = "/open" + m[1]
 				u = URI.parse("http://" + LOCAL['arduino_server'] + url)
 				logger.error(u.inspect)

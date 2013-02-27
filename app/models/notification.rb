@@ -192,10 +192,13 @@ class Notification < ActiveRecord::Base
 	end
 
 	def self.generate_code
-		alpha1 = ((1 + rand(26)) + 64).chr
-		alpha2 = ((1 + rand(26)) + 96).chr
-		alpha3 = ((1 + rand(26)) + 96).chr
-		"#{alpha1}#{alpha2}#{alpha3}"
+		#alpha1 = ((1 + rand(26)) + 64).chr
+		#alpha2 = ((1 + rand(26)) + 96).chr
+		#alpha3 = ((1 + rand(26)) + 96).chr
+		#"#{alpha1}#{alpha2}#{alpha3}"
+		numeric1 = (1 + rand(9)).chr
+		numeric2 = (1 + rand(9)).chr
+		"#{numeric1}#{numeric2}"
 	end
 
 end
