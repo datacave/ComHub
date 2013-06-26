@@ -19,7 +19,7 @@ class Channel < ActiveRecord::Base
 	has_many :notifications
 	belongs_to :time_window
 
-  validates_uniqueness_of :address
+  validates_uniqueness_of :address, :scope => :mechanism_id
 	validates_format_of :address, :with => /@/i,
 		:if => :address_is_email?
 	validates_format_of :address, :with => /\d\d\d\d\d\d\d\d\d\d/,
@@ -37,6 +37,10 @@ class Channel < ActiveRecord::Base
 
 	def address_is_phone?
 		mechanism.designation == "sms"
+	end
+
+	def address_is_voice?
+		mechanism.designation == "voice"
 	end
 
 	# Dual function function. This checks AND CLEARS suppression.

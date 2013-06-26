@@ -191,6 +191,29 @@ class Notification < ActiveRecord::Base
 		self.deliver!
 	end
 
+	def send_via_voice
+		# This is a local gem
+		require 'twilio-ruby'
+		api_version = LOCAL['twilio_version']
+		account_sid = LOCAL['twilio_sid']
+		account_token = LOCAL['twilio_token']
+		if (body.match(/^ACKNOWLEDGEMENT/))
+			number = LOCAL['twilio_number2']
+		else
+			number = LOCAL['twilio_number']
+		end
+		client = Twilio::REST::Client.new(account_sid, account_token)
+		call = client.account.calls.create({:from => number, :to => channel.address,
+			:url => URI::escape("#{LOCAL['return_twiml']}?message=#{body}"),
+			:status_callback => LOCAL['return_url'] })
+		if call.status == 'failed'
+			logger.error("Got error #{call.to_yaml} from Twilio!")
+		else
+			self.update_attributes(:uid => call.sid)
+			self.deliver!
+		end
+	end
+
 	def self.generate_code
 		#alpha1 = ((1 + rand(26)) + 64).chr
 		#alpha2 = ((1 + rand(26)) + 96).chr

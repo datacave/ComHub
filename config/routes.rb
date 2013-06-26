@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'notifications/confirm', :controller => :notifications, :action => :confirm
   map.connect 'notifications/search', :controller => :notifications, :action => :search
+  map.connect 'notifications/voice', :controller => :notifications, :action => :voice
   map.resources :notifications
 
   map.connect 'messages/search', :controller => :messages, :action => :search
