@@ -161,4 +161,9 @@ class NotificationsController < ApplicationController
     @notifications = Notification.find_by_sql(@query)
   end
 
+  def voice
+    @message = params[:message]
+    render :layout => false
+  end
+
 end
