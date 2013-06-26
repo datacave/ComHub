@@ -204,7 +204,7 @@ class Notification < ActiveRecord::Base
 		end
 		client = Twilio::REST::Client.new(account_sid, account_token)
 		call = client.account.calls.create({:from => number, :to => channel.address,
-			:url => URI::escape("#{LOCAL['return_twiml']}?message=#{body}"),
+			:url => URI::escape("#{LOCAL['return_twiml']}?message=#{body} Message repeats. #{body}"),
 			:status_callback => LOCAL['return_url'] })
 		if call.status == 'failed'
 			logger.error("Got error #{call.to_yaml} from Twilio!")
