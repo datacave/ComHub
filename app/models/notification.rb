@@ -161,6 +161,34 @@ class Notification < ActiveRecord::Base
 		end
 	end
 
+	def send_via_pushover
+		require 'net/http'
+		require 'net/https'
+		require 'openssl'
+		
+		puts "*********** MESSAGE APPENDED TO CORRECT METHOD! ******"
+
+		uri = URI('https://api.pushover.net/1/messages')
+
+		payload = {
+			"token" => "#{LOCAL['pushover_token']}",
+			"user" => "#{channel.address}",
+			"title" => "#{subject}",
+			"message" => "#{body}",
+			"priority" => "1"
+		}
+
+		http = Net::HTTP.new(uri.host,uri.port)
+		http.use_ssl = true
+		http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+		req = Net::HTTP::Post.new(uri.request_uri)
+		req.set_form_data(payload)
+
+		res = http.request(req)
+		puts res
+	end
+
 	def send_via_xmpp
 		# This is a local package on Ubuntu
 		require 'xmpp4r'

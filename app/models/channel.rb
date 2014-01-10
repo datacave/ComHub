@@ -42,6 +42,10 @@ class Channel < ActiveRecord::Base
 	def address_is_voice?
 		mechanism.designation == "voice"
 	end
+	
+	def address_is_key?
+		mechanism.designation == "pushover"
+	end
 
 	# Dual function function. This checks AND CLEARS suppression.
 	def is_being_suppressed?
