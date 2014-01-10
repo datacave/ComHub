@@ -174,7 +174,7 @@ class Notification < ActiveRecord::Base
 			"priority" => "2",
 			"retry" => "60",
 			"expire" => "3600",
-			"callback" => "https://admin:3zpT0fLp@comhub.thedatacave.com:3000/acknowledgments/pover"
+			"callback" => "#{LOCAL['pushover_callback']}"
 		}
 
 		http = Net::HTTP.new(uri.host,uri.port)
