@@ -165,17 +165,16 @@ class Notification < ActiveRecord::Base
 		require 'net/http'
 		require 'net/https'
 		require 'openssl'
-		
-		puts "*********** MESSAGE APPENDED TO CORRECT METHOD! ******"
-
 		uri = URI('https://api.pushover.net/1/messages')
-
 		payload = {
 			"token" => "#{LOCAL['pushover_token']}",
 			"user" => "#{channel.address}",
 			"title" => "#{subject}",
 			"message" => "#{body}",
-			"priority" => "1"
+			"priority" => "2",
+			"retry" => "60",
+			"expire" => "3600",
+			"callback" => "https://admin:3zpT0fLp@comhub.thedatacave.com:3000/acknowledgments/pover"
 		}
 
 		http = Net::HTTP.new(uri.host,uri.port)
@@ -184,8 +183,8 @@ class Notification < ActiveRecord::Base
 
 		req = Net::HTTP::Post.new(uri.request_uri)
 		req.set_form_data(payload)
-
 		res = http.request(req)
+		puts "*************** RES ************"
 		puts res
 	end
 

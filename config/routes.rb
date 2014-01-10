@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.connect 'acknowledgments/remote', :controller => :acknowledgments, :action => :remote
+  map.connect 'acknowledgments/pover', :controller => :acknowledgments, :action => :pover, :method => :post
   map.resources :acknowledgments
 
   map.resources :mechanisms

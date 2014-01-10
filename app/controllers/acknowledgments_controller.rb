@@ -1,6 +1,6 @@
 class AcknowledgmentsController < ApplicationController
 
-	protect_from_forgery :except => :remote
+	protect_from_forgery :except => [:remote, :pover]
 
 	# GET /acknowledgments
   # GET /acknowledgments.xml
@@ -103,6 +103,22 @@ class AcknowledgmentsController < ApplicationController
 		else
 			render :xml => @ack.errors, :status => :unprocessable_entity
 		end
+  end
+
+  def pover
+	puts params
+	puts "************* SOMETHING HIT THE SERVER CORRECTLY*************"
+
+	temp = {}
+	temp.store(:body, params[:receipt])
+	temp.store(:status, params[:acknowledged])
+	@ack = Acknowledgment.new(temp)
+
+	if @ack.save
+		render :xml => @ack, :status => :ok
+	else
+		render :xml => @ack.errors, :status => :unprocessable_entity
+	end
   end
 
 end
