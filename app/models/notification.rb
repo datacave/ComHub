@@ -166,15 +166,22 @@ class Notification < ActiveRecord::Base
 		require 'net/https'
 		require 'openssl'
 		uri = URI('https://api.pushover.net/1/messages')
+
+		# Would eventually like to send emergency alert notifications that require acknowledgments, 
+		# so that we can push those acknowledgments to Nagios. Howerver, as Pushover's API is 
+		# currently written, the Emergency Alert will only show as acknowledged once EVERY
+		# user has acknowledged each alert message. Which is counter-intuitive and doesn't
+		# create any traceability towards which user acknowledged which message. 
+
+		# Will need to check up on Pushover's API routinely in order to implement this 
+		# feature when fixed. - JSC 01/14/14
+
 		payload = {
 			"token" => "#{LOCAL['pushover_token']}",
 			"user" => "#{channel.address}",
 			"title" => "#{subject}",
 			"message" => "#{body}",
-			"priority" => "2",
-			"retry" => "60",
-			"expire" => "3600",
-			"callback" => "#{LOCAL['pushover_callback']}"
+			"priority" => "1"
 		}
 
 		http = Net::HTTP.new(uri.host,uri.port)
@@ -184,7 +191,6 @@ class Notification < ActiveRecord::Base
 		req = Net::HTTP::Post.new(uri.request_uri)
 		req.set_form_data(payload)
 		res = http.request(req)
-		puts "*************** RES ************"
 		puts res
 	end
 
